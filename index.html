@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PetHub — Kuwait’s all-in-one platform for vet care, grooming, walking, transport, marketplace, supplies, and pet health." />
+  <title>PetHub | Everything Your Pet Needs in One Place — Kuwait</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="home">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="header" id="top">
+    <div class="header__inner container">
+      <div class="header__brand">
+        <a class="logo" href="index.html" aria-label="PetHub home">
+          <span class="logo__graphic" aria-hidden="true">
+            <img class="logo__img" src="imges/logopet.webp" width="200" height="60" alt="" loading="eager" decoding="async" fetchpriority="high" />
+          </span>
+          <span class="logo__text">PetHub</span>
+        </a>
+      </div>
+      <nav class="header__nav nav" aria-label="Main">
+        <button type="button" class="nav__scrim" id="nav-scrim" aria-label="Close menu" tabindex="-1" hidden></button>
+        <div class="nav__panel" id="nav-panel">
+          <div class="nav__panel-head">
+            <span class="nav__panel-title">Menu</span>
+            <button type="button" class="nav__close" id="nav-close" aria-label="Close menu">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+          <ul class="nav__links">
+            <li><a href="index.html" class="nav__link" data-nav="home">Home</a></li>
+            <li><a href="services.html" class="nav__link" data-nav="services">Services</a></li>
+            <li><a href="marketplace.html" class="nav__link" data-nav="marketplace">Marketplace</a></li>
+            <li><a href="shop.html" class="nav__link" data-nav="shop">Shop</a></li>
+            <li><a href="bookings.html" class="nav__link" data-nav="bookings">Bookings</a></li>
+            <li><a href="about.html" class="nav__link" data-nav="about">About</a></li>
+            <li><a href="contact.html" class="nav__link" data-nav="contact">Contact</a></li>
+          </ul>
+          <div class="nav__mobile-actions" data-guest-only>
+            <a href="signin.html?mode=signup" class="btn btn--primary btn--sm header__cta btn--block">Get Started</a>
+            <a href="signin.html" class="btn btn--outline btn--sm btn--block">Sign in</a>
+          </div>
+          <div class="nav__mobile-account" data-user-only hidden>
+            <p class="nav__mobile-account-name"><span data-user-display></span></p>
+            <a href="bookings.html" class="nav__mobile-link">My account</a>
+            <a href="bookings.html" class="nav__mobile-link">Bookings</a>
+            <a href="bookings.html#dash-saved" class="nav__mobile-link">Saved pets</a>
+            <button type="button" class="btn btn--signout btn--sm btn--block" data-sign-out>Sign out</button>
+          </div>
+        </div>
+      </nav>
+      <div class="header__actions">
+        <div class="header__search-popover" id="header-search-popover">
+          <button type="button" class="header__icon-btn header__search-toggle" id="header-search-toggle" aria-expanded="false" aria-controls="header-search-dropdown" aria-label="Open search">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          </button>
+          <div id="header-search-dropdown" class="header__search-dropdown" role="dialog" aria-label="Search" aria-hidden="true">
+            <div class="header__search header__search--popover" role="search">
+              <label class="visually-hidden" for="global-search">Search services, pets, products</label>
+              <svg class="header__search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <input type="search" id="global-search" class="header__search-input" placeholder="Search services, pets, products..." autocomplete="off" />
+            </div>
+          </div>
+        </div>
+        <div class="header__guest-actions" data-guest-only>
+          <a href="signin.html" class="header__signin-link">Sign in</a>
+          <a href="signin.html?mode=signup" class="btn btn--primary btn--sm header__cta">Get Started</a>
+        </div>
+        <div class="header__account-menu" data-user-only hidden>
+          <button type="button" class="header__account-trigger" id="header-account-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="header-account-dropdown">
+            <span class="header__avatar" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </span>
+            <span class="header__account-name" data-user-display aria-live="polite"></span>
+            <svg class="header__account-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div id="header-account-dropdown" class="header__account-dropdown" role="menu" hidden>
+            <a role="menuitem" href="bookings.html" class="header__account-item">My account</a>
+            <a role="menuitem" href="bookings.html" class="header__account-item">Bookings</a>
+            <a role="menuitem" href="bookings.html#dash-saved" class="header__account-item">Saved pets</a>
+            <button type="button" role="menuitem" class="header__account-item header__account-item--danger" data-sign-out>Sign out</button>
+          </div>
+        </div>
+        <div class="header__icons" aria-label="Quick actions">
+          <button type="button" class="header__icon-btn" data-open-chat aria-label="Support chat">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8.5z"/></svg>
+          </button>
+          <button type="button" class="header__icon-btn" data-open-cart aria-label="Shopping cart">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+            <span class="header__cart-count" data-cart-count hidden>0</span>
+          </button>
+        </div>
+        <button type="button" class="nav__toggle" aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu">
+          <span class="nav__toggle-bar"></span><span class="nav__toggle-bar"></span><span class="nav__toggle-bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="toast-host" id="toast-host" aria-live="polite"></div>
+  <main id="main">
+    <section class="hero hero--light" id="home" aria-labelledby="hero-title">
+      <div class="hero__ambient hero__ambient--light" aria-hidden="true">
+        <div class="hero__blob hero__blob--1"></div>
+        <div class="hero__blob hero__blob--2"></div>
+        <div class="hero__blob hero__blob--3"></div>
+      </div>
+      <div class="container hero__layout">
+        <div class="hero__copy reveal">
+          <p class="eyebrow"><span class="eyebrow__dot"></span> Kuwait · Pet care, simplified</p>
+          <h1 id="hero-title" class="hero__title">Everything Your Pet Needs, <span class="text-gradient">All in One Place</span></h1>
+          <p class="hero__sub">
+            PetHub is Kuwait’s integrated platform for trusted veterinary care, grooming, walking, safe transport,
+            supplies, and a curated pet marketplace — with health records, reminders, and real-time tracking built in.
+          </p>
+          <div class="hero__cta">
+            <a href="services.html" class="btn btn--primary">Book a Service</a>
+            <a href="marketplace.html" class="btn btn--outline">Explore Marketplace</a>
+          </div>
+          <div class="hero__search hero__search--inline">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="search" class="hero__search-input" placeholder="What does your pet need today?" data-hero-search aria-label="Search services or products" />
+            <button type="button" class="btn btn--primary btn--sm hero__search-btn" data-hero-search-btn>Search</button>
+          </div>
+        </div>
+        <div class="hero__visual hero__visual--light reveal reveal--delay">
+          <figure class="hero__figure">
+            <img
+              class="hero__photo"
+              src="images/dogwalk.jpg"
+              alt="Person walking a happy dog outdoors"
+              width="800"
+              height="520"
+              loading="eager"
+              decoding="async"
+            />
+          </figure>
+          <div class="hero__stat hero__stat--1 glass-panel glass-panel--light">
+            <strong>5K+</strong>
+            <span>Pet families</span>
+          </div>
+          <div class="hero__stat hero__stat--2 glass-panel glass-panel--light">
+            <strong>24/7</strong>
+            <span>Urgent care</span>
+          </div>
+          <a href="services.html" class="float-pill float-pill--1" data-float>Vet Booking</a>
+          <a href="services.html?q=grooming" class="float-pill float-pill--2" data-float>Grooming</a>
+          <a href="services.html?q=transport" class="float-pill float-pill--3" data-float>Pet Taxi</a>
+          <a href="marketplace.html" class="float-pill float-pill--4" data-float>Marketplace</a>
+          <a href="shop.html" class="float-pill float-pill--5" data-float>Pet Supplies</a>
+          <button type="button" class="float-pill float-pill--6" data-float data-open-emergency>Emergency Help</button>
+        </div>
+      </div>
+    </section>
+    <section class="trust" aria-label="Trust highlights">
+      <div class="container trust__inner">
+        <div class="trust__stats reveal">
+          <div class="trust__stat">
+            <strong data-count>5K+</strong>
+            <span>Happy pet owners</span>
+          </div>
+          <div class="trust__stat">
+            <strong>200+</strong>
+            <span>Verified providers</span>
+          </div>
+          <div class="trust__stat">
+            <strong>24/7</strong>
+            <span>Emergency support</span>
+          </div>
+          <div class="trust__stat">
+            <strong>1,000+</strong>
+            <span>Shop products</span>
+          </div>
+        </div>
+        <ul class="trust__chips reveal reveal--delay">
+          <li>Trusted pet providers</li>
+          <li>Fast booking</li>
+          <li>GPS tracking</li>
+          <li>Secure payments</li>
+          <li>Pet health management</li>
+          <li>Across Kuwait</li>
+        </ul>
+      </div>
+    </section>
+    <section class="section section--home-quick" id="explore" aria-labelledby="quick-title">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">Start here</p>
+          <h2 id="quick-title" class="section__title">Your pet hub in <span class="text-gradient">four taps</span></h2>
+          <p class="section__lead">Book care, browse adoptable pets, stock up on supplies, or open your dashboard — all synced across PetHub.</p>
+        </header>
+        <div class="home-quick-grid reveal">
+          <a href="services.html" class="home-quick-card glass-panel">
+            <div class="home-quick-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <h3 class="home-quick-card__title">Services</h3>
+            <p class="home-quick-card__text">Vets, grooming, walking, and transport.</p>
+            <span class="home-quick-card__cta">Book care →</span>
+          </a>
+          <a href="marketplace.html" class="home-quick-card glass-panel">
+            <div class="home-quick-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+            <h3 class="home-quick-card__title">Marketplace</h3>
+            <p class="home-quick-card__text">Find companions from verified sellers.</p>
+            <span class="home-quick-card__cta">Browse pets →</span>
+          </a>
+          <a href="shop.html" class="home-quick-card glass-panel">
+            <div class="home-quick-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg></div>
+            <h3 class="home-quick-card__title">Shop</h3>
+            <p class="home-quick-card__text">Food, toys, beds, and travel gear.</p>
+            <span class="home-quick-card__cta">Shop now →</span>
+          </a>
+          <a href="bookings.html" class="home-quick-card glass-panel">
+            <div class="home-quick-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+            <h3 class="home-quick-card__title">Bookings</h3>
+            <p class="home-quick-card__text">Visits, orders, saved pets, profiles.</p>
+            <span class="home-quick-card__cta">Open hub →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+    <section class="section section--smart" id="health-records" aria-labelledby="smart-title">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">Health &amp; technology</p>
+          <h2 id="smart-title" class="section__title">Smarter care, <span class="text-gradient">calmer owners</span></h2>
+          <p class="section__lead">Digital records, live tracking, and secure payments — the extras that make PetHub feel inevitable.</p>
+        </header>
+        <div class="smart-grid">
+          <article class="smart-card reveal">
+            <div class="smart-card__glow"></div>
+            <div class="smart-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div>
+            <h3>Digital pet medical records</h3>
+            <p>Visits, labs, and prescriptions in one vault — share instantly with any vet on PetHub.</p>
+          </article>
+          <article class="smart-card reveal">
+            <div class="smart-card__glow"></div>
+            <div class="smart-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+            <h3>Vaccination reminders</h3>
+            <p>Push and email nudges tuned to your pet’s schedule — never miss a booster.</p>
+          </article>
+          <article class="smart-card reveal smart-card--wide">
+            <div class="smart-card__glow"></div>
+            <div class="smart-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-6-4.5-6-9a6 6 0 1112 0c0 4.5-6 9-6 9z"/><circle cx="12" cy="12" r="2.5"/></svg></div>
+            <h3>Live GPS tracking</h3>
+            <p>Watch walks and transport in real time — route history, ETA, and driver handoff confirmations.</p>
+          </article>
+          <article class="smart-card reveal">
+            <div class="smart-card__glow"></div>
+            <div class="smart-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <h3>Secure messaging</h3>
+            <p>Message groomers, walkers, and clinics without leaving the thread of your booking.</p>
+          </article>
+          <article class="smart-card reveal smart-card--clickable">
+            <div class="smart-card__glow"></div>
+            <div class="smart-card__icon smart-card__icon--warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg></div>
+            <h3>Emergency help</h3>
+            <p>Priority routing to on-call partners when your pet needs help fast.</p>
+            <button type="button" class="btn btn--soft btn--sm smart-card__cta" data-open-emergency>Request urgent help</button>
+          </article>
+          <article class="smart-card reveal">
+            <div class="smart-card__glow"></div>
+            <div class="smart-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+            <h3>Secure online payments</h3>
+            <p>Encrypted checkout, saved methods, and transparent receipts for every service and order.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="section section--pet-profiles" id="pet-profiles" aria-labelledby="pet-profiles-title">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">Pet health</p>
+          <h2 id="pet-profiles-title" class="section__title">Pet profiles &amp; <span class="text-gradient">health records</span></h2>
+          <p class="section__lead">Add each pet once — track vaccination dates and notes. Reminders surface automatically when a due date is near.</p>
+          <div class="section__head-actions">
+            <a href="#pet-profile-form" class="btn btn--primary btn--sm">Add a pet profile</a>
+          </div>
+        </header>
+        <div id="pet-profile-form" class="pet-form-panel reveal glass-panel" tabindex="-1">
+          <form id="form-pet-profile" class="booking-form" novalidate>
+            <div class="form-row form-row--2">
+              <label class="field">
+                <span class="field__label">Pet name</span>
+                <input type="text" name="petName" id="pet-form-name" class="input" required />
+              </label>
+              <label class="field">
+                <span class="field__label">Pet type</span>
+                <input type="text" name="petType" id="pet-form-type" class="input" placeholder="Dog, cat…" required />
+              </label>
+            </div>
+            <div class="form-row form-row--2">
+              <label class="field">
+                <span class="field__label">Breed</span>
+                <input type="text" name="breed" id="pet-form-breed" class="input" required />
+              </label>
+              <label class="field">
+                <span class="field__label">Age</span>
+                <input type="text" name="age" id="pet-form-age" class="input" placeholder="e.g. 3 years" required />
+              </label>
+            </div>
+            <label class="field">
+              <span class="field__label">Last / next vaccination date</span>
+              <input type="date" name="vaccDate" id="pet-form-vacc" class="input" />
+            </label>
+            <label class="field">
+              <span class="field__label">Medical notes</span>
+              <textarea name="notes" id="pet-form-notes" class="input input--textarea" rows="2"></textarea>
+            </label>
+            <button type="submit" class="btn btn--primary" id="pet-form-submit">Save pet profile</button>
+          </form>
+        </div>
+        <div class="pet-profiles-grid" id="pet-profile-cards"></div>
+      </div>
+    </section>
+    <section class="section section--steps" id="how-it-works" aria-labelledby="steps-title">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">How it works</p>
+          <h2 id="steps-title" class="section__title">From signup to <span class="text-gradient">tail wags</span> in minutes</h2>
+        </header>
+        <ol class="steps reveal">
+          <li class="steps__item"><span class="steps__num">1</span><div><h3>Create account</h3><p>Sign up with email or phone — verified for trust.</p></div></li>
+          <li class="steps__item"><span class="steps__num">2</span><div><h3>Add your pet profile</h3><p>Breed, age, allergies, and photos — one home for every pet.</p></div></li>
+          <li class="steps__item"><span class="steps__num">3</span><div><h3>Choose a service or product</h3><p>Browse vets, walkers, listings, or the shop with smart filters.</p></div></li>
+          <li class="steps__item"><span class="steps__num">4</span><div><h3>Book, order, or chat</h3><p>Confirm slots, pay securely, and message providers on PetHub.</p></div></li>
+          <li class="steps__item"><span class="steps__num">5</span><div><h3>Track everything</h3><p>Appointments, deliveries, GPS trips, and records — all in one timeline.</p></div></li>
+        </ol>
+      </div>
+    </section>
+    <section class="section section--testimonials" id="testimonials" aria-labelledby="test-title">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">Loved by locals</p>
+          <h2 id="test-title" class="section__title">Trusted by pet owners <span class="text-gradient">across Kuwait</span></h2>
+        </header>
+        <div class="testimonial-grid">
+          <figure class="testimonial reveal">
+            <blockquote>“I book grooming and order food in one place. The vaccination reminders alone saved us from missing a booster.”</blockquote>
+            <figcaption><strong>Noura A.</strong><span>Salmiya · 2 dogs</span></figcaption>
+          </figure>
+          <figure class="testimonial reveal">
+            <blockquote>“GPS on walks is non-negotiable for us. PetHub feels like a serious platform — not a side project.”</blockquote>
+            <figcaption><strong>Yousef K.</strong><span>Surra · Husky parent</span></figcaption>
+          </figure>
+          <figure class="testimonial reveal">
+            <blockquote>“Found our kitten through the marketplace, chatted with the seller, and had the vet visit booked the same day.”</blockquote>
+            <figcaption><strong>Layan M.</strong><span>Mishref · new cat mom</span></figcaption>
+          </figure>
+          <figure class="testimonial testimonial--featured reveal">
+            <blockquote>“Emergency button gave us a clear path when our pup ate something he shouldn’t. Calm, fast, human.”</blockquote>
+            <figcaption><strong>Fahad R.</strong><span>Jabriya · PetHub Plus</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+    <section class="cta" id="cta" aria-labelledby="cta-title">
+      <div class="container cta__inner reveal">
+        <div class="cta__glow" aria-hidden="true"></div>
+        <h2 id="cta-title" class="cta__title">Book trusted pet services today</h2>
+        <p class="cta__text">Everything your pet needs — vets, walkers, transport, marketplace, shop, and health tools — in one elegant platform built for Kuwait.</p>
+        <div class="cta__actions">
+          <a href="signin.html?mode=signup" class="btn btn--primary btn--lg">Get Started</a>
+          <a href="services.html" class="btn btn--outline btn--lg">Browse services</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <footer class="footer" id="site-footer">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <a class="logo logo--footer" href="index.html" aria-label="PetHub home"><span class="logo__graphic" aria-hidden="true"><img class="logo__img" src="imges/logopet.webp" width="160" height="48" alt="" decoding="async" /></span><span class="logo__text">PetHub</span></a>
+        <p class="footer__tagline">Everything your pet needs in one place — Kuwait.</p>
+        <div class="footer__social" aria-label="Social">
+          <a href="#" class="social-link" aria-label="Instagram">IG</a>
+          <a href="#" class="social-link" aria-label="X">X</a>
+        </div>
+      </div>
+      <div>
+        <h3 class="footer__heading">Explore</h3>
+        <ul class="footer__list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="marketplace.html">Marketplace</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="bookings.html">Bookings</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer__heading">Company</h3>
+        <ul class="footer__list">
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="signin.html">Sign in</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer__heading">Contact</h3>
+        <ul class="footer__list footer__contact">
+          <li><a href="mailto:hello@pethub.kw">hello@pethub.kw</a></li>
+          <li><a href="tel:+96500000000">+965 0000 0000</a></li>
+          <li>Kuwait City</li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <p>&copy; <span id="year"></span> PetHub. All rights reserved.</p>
+      <p class="footer__legal"><a href="#">Privacy</a> · <a href="#">Terms</a></p>
+    </div>
+  </footer>
+    </div>
+  </footer>
+
+  <button type="button" class="emergency-fab" data-open-emergency aria-label="Emergency veterinary help">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+    <span>Emergency</span>
+  </button>
+
+  <div class="cart-drawer" id="cart-drawer" hidden aria-hidden="true">
+    <div class="cart-drawer__backdrop" data-close-cart tabindex="-1" aria-hidden="true"></div>
+    <div class="cart-drawer__panel glass-panel" role="dialog" aria-labelledby="cart-drawer-title">
+      <div class="cart-drawer__head">
+        <h2 id="cart-drawer-title">Your cart</h2>
+        <button type="button" class="icon-btn cart-drawer__close" data-close-cart aria-label="Close cart">×</button>
+      </div>
+      <div class="cart-drawer__body" id="cart-lines"></div>
+      <div class="cart-drawer__foot">
+        <p class="cart-drawer__total">Total: <strong id="cart-total">0.00 KD</strong></p>
+        <button type="button" class="btn btn--primary btn--block" id="checkout-open">Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-widget" id="chat-widget">
+    <button type="button" class="chat-widget__launcher" id="chat-launcher" aria-label="Open PetHub Support chat" aria-expanded="false" aria-controls="chat-panel">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8.5z"/></svg>
+    </button>
+    <div class="chat-widget__panel" id="chat-panel" role="dialog" aria-labelledby="chat-widget-title" aria-hidden="true" hidden>
+      <div class="chat-widget__header">
+        <span id="chat-widget-title">PetHub Support</span>
+        <button type="button" class="chat-widget__toggle" id="chat-toggle" aria-expanded="false" aria-label="Close chat">×</button>
+      </div>
+      <div class="chat-widget__body">
+        <div class="chat-widget__messages" id="chat-messages"></div>
+        <div class="chat-widget__input-row">
+          <input type="text" id="chat-input" class="input chat-widget__input" placeholder="Type a message…" autocomplete="off" />
+          <button type="button" class="btn btn--primary btn--sm" id="chat-send">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="modal-booking" role="dialog" aria-modal="true" aria-labelledby="modal-booking-title" hidden aria-hidden="true">
+    <div class="modal__backdrop" data-modal-close tabindex="-1"></div>
+    <div class="modal__panel glass-panel">
+      <button type="button" class="modal__close" data-modal-close aria-label="Close">×</button>
+      <h2 id="modal-booking-title" class="modal__title">Book a service</h2>
+      <form id="form-modal-booking" class="booking-form" novalidate>
+        <label class="field">
+          <span class="field__label">Service</span>
+          <select name="service" id="modal-booking-service" class="input" required>
+            <option value="">Select service</option>
+            <option>Veterinary Care</option>
+            <option>Pet Grooming</option>
+            <option>Dog Walking</option>
+            <option>Pet Transportation</option>
+            <option>Emergency Vet</option>
+            <option>Vaccination Reminder</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="field__label">Date</span>
+          <input type="date" name="date" class="input" required />
+        </label>
+        <div class="field">
+          <span class="field__label">Time slot</span>
+          <div class="time-slots" role="group">
+            <button type="button" class="time-slot" data-time="9:00 AM">9:00 AM</button>
+            <button type="button" class="time-slot" data-time="11:30 AM">11:30 AM</button>
+            <button type="button" class="time-slot" data-time="2:00 PM">2:00 PM</button>
+            <button type="button" class="time-slot" data-time="4:30 PM">4:30 PM</button>
+            <button type="button" class="time-slot" data-time="6:00 PM">6:00 PM</button>
+          </div>
+        </div>
+        <div class="form-row form-row--2">
+          <label class="field">
+            <span class="field__label">Pet type</span>
+            <select name="petType" class="input" required>
+              <option value="">Select</option>
+              <option>Dog</option>
+              <option>Cat</option>
+              <option>Bird</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label class="field">
+            <span class="field__label">Pet name</span>
+            <input type="text" name="petName" class="input" required />
+          </label>
+        </div>
+        <div class="form-row form-row--2">
+          <label class="field">
+            <span class="field__label">Your name</span>
+            <input type="text" name="ownerName" class="input" required />
+          </label>
+          <label class="field">
+            <span class="field__label">Phone</span>
+            <input type="tel" name="phone" class="input" required />
+          </label>
+        </div>
+        <label class="field">
+          <span class="field__label">Notes</span>
+          <textarea name="notes" class="input input--textarea" rows="2"></textarea>
+        </label>
+        <button type="submit" class="btn btn--primary btn--block">Submit booking</button>
+      </form>
+    </div>
+  </div>
+  <div class="modal" id="modal-booking-success" role="dialog" aria-modal="true" aria-labelledby="modal-success-title" hidden aria-hidden="true">
+    <div class="modal__backdrop" data-modal-close tabindex="-1"></div>
+    <div class="modal__panel glass-panel modal__panel--sm">
+      <h2 id="modal-success-title" class="modal__title">You’re all set</h2>
+      <p class="modal__lead">Booking confirmed — details below.</p>
+      <ul class="booking-summary" id="booking-success-summary"></ul>
+      <button type="button" class="btn btn--primary btn--block" data-modal-close>Done</button>
+    </div>
+  </div>
+  <div class="modal" id="modal-listing" role="dialog" aria-modal="true" aria-labelledby="modal-listing-title" hidden aria-hidden="true">
+    <div class="modal__backdrop" data-modal-close tabindex="-1"></div>
+    <div class="modal__panel glass-panel">
+      <button type="button" class="modal__close" data-modal-close aria-label="Close">×</button>
+      <h2 id="modal-listing-title" class="visually-hidden">Listing details</h2>
+      <div id="modal-listing-body" class="modal-listing-body"></div>
+      <button type="button" class="btn btn--primary btn--block" data-modal-close>Close</button>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-inquiry" role="dialog" aria-modal="true" aria-labelledby="modal-inquiry-title" hidden aria-hidden="true">
+    <div class="modal__backdrop" data-modal-close tabindex="-1"></div>
+    <div class="modal__panel glass-panel modal__panel--sm">
+      <button type="button" class="modal__close" data-modal-close aria-label="Close">×</button>
+      <h2 id="modal-inquiry-title" class="modal__title">Contact seller</h2>
+      <p class="modal__muted" id="inquiry-listing-label"></p>
+      <form id="form-inquiry" novalidate>
+        <label class="field"><span class="field__label">Your name</span><input type="text" name="name" class="input" required /></label>
+        <label class="field"><span class="field__label">Email</span><input type="email" name="email" class="input" required /></label>
+        <label class="field"><span class="field__label">Message</span><textarea name="message" class="input input--textarea" rows="3" required></textarea></label>
+        <button type="submit" class="btn btn--primary btn--block">Send inquiry</button>
+      </form>
+    </div>
+  </div>
+  <div class="modal" id="modal-checkout" role="dialog" aria-modal="true" aria-labelledby="checkout-title" hidden aria-hidden="true">
+    <div class="modal__backdrop" data-modal-close tabindex="-1"></div>
+    <div class="modal__panel glass-panel modal__panel--sm">
+      <button type="button" class="modal__close" data-modal-close aria-label="Close">×</button>
+      <h2 id="checkout-title" class="modal__title">Checkout</h2>
+      <p class="modal__muted">Demo checkout — no real payment.</p>
+      <form id="form-checkout" novalidate>
+        <label class="field"><span class="field__label">Full name</span><input type="text" name="fullName" class="input" required /></label>
+        <label class="field"><span class="field__label">Phone</span><input type="tel" name="phone" class="input" required /></label>
+        <label class="field"><span class="field__label">Delivery area</span><input type="text" name="address" class="input" placeholder="Area, block, street" required /></label>
+        <button type="submit" class="btn btn--primary btn--block">Place order</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-auth" role="dialog" aria-modal="true" aria-labelledby="auth-mode-title" hidden aria-hidden="true">
+    <div class="modal__backdrop" data-modal-close tabindex="-1"></div>
+    <div class="modal__panel glass-panel modal__panel--sm">
+      <button type="button" class="modal__close" data-modal-close aria-label="Close">×</button>
+      <h2 id="auth-mode-title" class="modal__title">Sign in</h2>
+      <form id="form-auth" novalidate>
+        <div id="form-auth-signup-fields" hidden>
+          <label class="field"><span class="field__label">Display name</span><input type="text" name="displayName" class="input" /></label>
+          <label class="field"><span class="field__label">I am a</span>
+            <select name="role" class="input">
+              <option value="owner">Pet owner</option>
+              <option value="provider">Service provider</option>
+            </select>
+          </label>
+        </div>
+        <label class="field"><span class="field__label">Email</span><input type="email" name="email" class="input" autocomplete="username" required /></label>
+        <label class="field"><span class="field__label">Password</span><input type="password" name="password" class="input" autocomplete="current-password" required /></label>
+        <button type="submit" class="btn btn--primary btn--block">Continue</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-emergency" role="dialog" aria-modal="true" aria-labelledby="emergency-title" hidden aria-hidden="true">
+    <div class="modal__backdrop" data-modal-close tabindex="-1"></div>
+    <div class="modal__panel glass-panel modal__panel--emergency">
+      <button type="button" class="modal__close" data-modal-close aria-label="Close">×</button>
+      <h2 id="emergency-title" class="modal__title modal__title--urgent">Urgent veterinary request</h2>
+      <p class="modal__muted">Describe the issue — we’ll route you to an on-call partner in Kuwait.</p>
+      <form id="form-emergency" class="booking-form" novalidate>
+        <label class="field"><span class="field__label">What’s wrong?</span><textarea name="issue" class="input input--textarea" rows="2" required></textarea></label>
+        <label class="field"><span class="field__label">Your location</span><input type="text" name="location" class="input" placeholder="Area, landmark" required /></label>
+        <label class="field"><span class="field__label">Phone to reach you</span><input type="tel" name="contact" class="input" required /></label>
+        <button type="submit" class="btn btn--emergency btn--block">Send emergency request</button>
+      </form>
+    </div>
+  </div>
+  <script src="js/pethub.js"></script>
+</body>
+</html>

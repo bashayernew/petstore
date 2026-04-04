@@ -1,0 +1,133 @@
+    <section class="section section--services" id="services" aria-labelledby="services-title">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">Services</p>
+          <h2 id="services-title" class="section__title">Care that fits your <span class="text-gradient">pet’s life</span></h2>
+          <p class="section__lead">Book verified professionals, track visits, and keep every tail wagging — from Salmiya to Sabah Al Salem.</p>
+        </header>
+        <div class="service-grid" id="service-grid">
+          <article class="service-card reveal" data-searchable="veterinary vet clinic health" data-service="Veterinary Care">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <h3 class="service-card__title">Veterinary Care</h3>
+            <p class="service-card__text">Book clinics and home visits, share records, and get follow-ups without the phone tag.</p>
+            <button type="button" class="btn btn--soft service-card__btn" data-open-booking>Book now</button>
+          </article>
+          <article class="service-card reveal" data-searchable="grooming spa bath" data-service="Pet Grooming">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3a7 7 0 00-7 7v6h14v-6a7 7 0 00-7-7z"/><path d="M5 21h14"/></svg>
+            </div>
+            <h3 class="service-card__title">Pet Grooming</h3>
+            <p class="service-card__text">Spa days, trims, and nail care from salons that treat your pet like family.</p>
+            <button type="button" class="btn btn--soft service-card__btn" data-open-booking>Book now</button>
+          </article>
+          <article class="service-card reveal" data-searchable="dog walking walker exercise" data-service="Dog Walking">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="2"/><path d="M10 22V12M14 22V12M8 12h8l-1 5H9l-1-5z"/></svg>
+            </div>
+            <h3 class="service-card__title">Dog Walking</h3>
+            <p class="service-card__text">Reliable walkers with live GPS routes so you always know they’re safe.</p>
+            <button type="button" class="btn btn--soft service-card__btn" data-open-booking>Book now</button>
+          </article>
+          <article class="service-card reveal" data-searchable="transport taxi pet taxi ride" data-service="Pet Transportation">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 17h2V9l-4-4H5L1 9v8h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M5 9h14"/></svg>
+            </div>
+            <h3 class="service-card__title">Pet Transportation</h3>
+            <p class="service-card__text">Climate-controlled rides for vet trips, relocations, and airport runs.</p>
+            <button type="button" class="btn btn--soft service-card__btn" data-open-booking>Book now</button>
+          </article>
+          <article class="service-card reveal" data-searchable="emergency vet urgent" data-service="Emergency Vet">
+            <div class="service-card__icon service-card__icon--alert" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+            </div>
+            <h3 class="service-card__title">Emergency Vet</h3>
+            <p class="service-card__text">One tap to surface urgent help and share your pet’s location with responders.</p>
+            <button type="button" class="btn btn--soft service-card__btn" data-open-booking>Get help</button>
+          </article>
+          <article class="service-card reveal" data-searchable="vaccination reminder vaccine" data-service="Vaccination Reminder">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h3 class="service-card__title">Vaccination Reminder</h3>
+            <p class="service-card__text">Smart notifications so boosters and annual shots never slip through the cracks.</p>
+            <button type="button" class="btn btn--soft service-card__btn" data-open-booking>Book now</button>
+          </article>
+        </div>
+        <p class="empty-state" id="empty-services" hidden>No services match your search. Try another keyword.</p>
+      </div>
+    </section>
+
+    <section class="section section--booking" id="booking" aria-labelledby="booking-title">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">Book in seconds</p>
+          <h2 id="booking-title" class="section__title">Schedule a <span class="text-gradient">trusted visit</span></h2>
+          <p class="section__lead">Pick a service, time, and pet details — your request syncs to My Bookings instantly.</p>
+        </header>
+        <div class="booking-panel reveal glass-panel">
+          <form id="form-demo-booking" class="booking-form" novalidate>
+            <div class="form-row form-row--2">
+              <label class="field">
+                <span class="field__label">Service</span>
+                <select name="service" class="input" required>
+                  <option value="">Select service</option>
+                  <option>Veterinary Care</option>
+                  <option>Pet Grooming</option>
+                  <option>Dog Walking</option>
+                  <option>Pet Transportation</option>
+                  <option>Emergency Vet</option>
+                  <option>Vaccination Reminder</option>
+                </select>
+              </label>
+              <label class="field">
+                <span class="field__label">Date</span>
+                <input type="date" name="date" class="input" required />
+              </label>
+            </div>
+            <div class="field">
+              <span class="field__label">Time slot</span>
+              <div class="time-slots" role="group" aria-label="Time slot">
+                <button type="button" class="time-slot" data-time="9:00 AM">9:00 AM</button>
+                <button type="button" class="time-slot" data-time="11:30 AM">11:30 AM</button>
+                <button type="button" class="time-slot" data-time="2:00 PM">2:00 PM</button>
+                <button type="button" class="time-slot" data-time="4:30 PM">4:30 PM</button>
+                <button type="button" class="time-slot" data-time="6:00 PM">6:00 PM</button>
+              </div>
+            </div>
+            <div class="form-row form-row--2">
+              <label class="field">
+                <span class="field__label">Pet type</span>
+                <select name="petType" class="input" required>
+                  <option value="">Select</option>
+                  <option>Dog</option>
+                  <option>Cat</option>
+                  <option>Bird</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <label class="field">
+                <span class="field__label">Pet name</span>
+                <input type="text" name="petName" class="input" placeholder="e.g. Max" required />
+              </label>
+            </div>
+            <div class="form-row form-row--2">
+              <label class="field">
+                <span class="field__label">Your name</span>
+                <input type="text" name="ownerName" class="input" required />
+              </label>
+              <label class="field">
+                <span class="field__label">Phone</span>
+                <input type="tel" name="phone" class="input" placeholder="+965" required />
+              </label>
+            </div>
+            <label class="field">
+              <span class="field__label">Notes (optional)</span>
+              <textarea name="notes" class="input input--textarea" rows="2" placeholder="Allergies, parking, gate code…"></textarea>
+            </label>
+            <button type="submit" class="btn btn--primary">Confirm booking</button>
+          </form>
+        </div>
+      </div>
+    </section>

@@ -1,0 +1,88 @@
+    <section class="section section--market" id="marketplace" aria-labelledby="market-title">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">Marketplace</p>
+          <h2 id="market-title" class="section__title">Find your next <span class="text-gradient">companion</span></h2>
+          <p class="section__lead">Browse responsible listings from verified sellers across Kuwait — with clear details and secure messaging.</p>
+        </header>
+        <div class="filter-bar reveal" role="group" aria-label="Filter marketplace">
+          <button type="button" class="filter-chip is-active" data-filter-market="all">All</button>
+          <button type="button" class="filter-chip" data-filter-market="dog">Dogs</button>
+          <button type="button" class="filter-chip" data-filter-market="cat">Cats</button>
+          <button type="button" class="filter-chip" data-filter-market="bird">Birds</button>
+        </div>
+        <div class="market-grid" id="market-grid">
+          <article class="pet-card reveal" data-listing-id="lst-golden" data-category="dog" data-searchable="golden retriever puppy dog" data-listing-title="Golden Retriever" data-listing-age="10 weeks" data-listing-gender="Male" data-listing-price="380 KD" data-listing-loc="Jabriya" data-listing-seller="Ahmad Pet Home" data-listing-desc="Champion bloodline puppy, first vaccines done, microchipped. Parents on-site visit welcome in Jabriya.">
+            <div class="pet-card__media pet-card__media--dog" role="img" aria-label="Pet photo placeholder"></div>
+            <div class="pet-card__body">
+              <h3 class="pet-card__title">Golden Retriever</h3>
+              <ul class="pet-card__meta">
+                <li><span>Age</span> 10 weeks</li>
+                <li><span>Gender</span> Male</li>
+                <li><span>Price</span> 380 KD</li>
+                <li><span>Location</span> Jabriya</li>
+              </ul>
+              <div class="pet-card__actions">
+                <button type="button" class="btn btn--outline btn--sm btn--block" data-view-listing>View details</button>
+                <button type="button" class="btn btn--primary btn--sm btn--block" data-contact-seller>Contact seller</button>
+                <button type="button" class="btn btn--ghost btn--sm btn--block pet-card__save" data-save-listing aria-pressed="false">
+                  <span class="save-label">Save</span>
+                </button>
+              </div>
+            </div>
+          </article>
+          <article class="pet-card reveal" data-listing-id="lst-persian" data-category="cat" data-searchable="persian cat kitten" data-listing-title="Persian" data-listing-age="4 months" data-listing-gender="Female" data-listing-price="220 KD" data-listing-loc="Salwa" data-listing-seller="Feline Friends KW" data-listing-desc="Fluffy female Persian, litter trained, calm temperament — ideal for apartments.">
+            <div class="pet-card__media pet-card__media--cat" role="img" aria-label="Pet photo placeholder"></div>
+            <div class="pet-card__body">
+              <h3 class="pet-card__title">Persian</h3>
+              <ul class="pet-card__meta">
+                <li><span>Age</span> 4 months</li>
+                <li><span>Gender</span> Female</li>
+                <li><span>Price</span> 220 KD</li>
+                <li><span>Location</span> Salwa</li>
+              </ul>
+              <div class="pet-card__actions">
+                <button type="button" class="btn btn--outline btn--sm btn--block" data-view-listing>View details</button>
+                <button type="button" class="btn btn--primary btn--sm btn--block" data-contact-seller>Contact seller</button>
+                <button type="button" class="btn btn--ghost btn--sm btn--block pet-card__save" data-save-listing aria-pressed="false"><span class="save-label">Save</span></button>
+              </div>
+            </div>
+          </article>
+          <article class="pet-card reveal" data-listing-id="lst-husky" data-category="dog" data-searchable="husky dog" data-listing-title="Siberian Husky" data-listing-age="6 months" data-listing-gender="Male" data-listing-price="450 KD" data-listing-loc="Mangaf" data-listing-seller="Northern Paws" data-listing-desc="Energetic husky with blue eyes, leash &amp; crate trained. Needs active owner.">
+            <div class="pet-card__media pet-card__media--husky" role="img" aria-label="Pet photo placeholder"></div>
+            <div class="pet-card__body">
+              <h3 class="pet-card__title">Siberian Husky</h3>
+              <ul class="pet-card__meta">
+                <li><span>Age</span> 6 months</li>
+                <li><span>Gender</span> Male</li>
+                <li><span>Price</span> 450 KD</li>
+                <li><span>Location</span> Mangaf</li>
+              </ul>
+              <div class="pet-card__actions">
+                <button type="button" class="btn btn--outline btn--sm btn--block" data-view-listing>View details</button>
+                <button type="button" class="btn btn--primary btn--sm btn--block" data-contact-seller>Contact seller</button>
+                <button type="button" class="btn btn--ghost btn--sm btn--block pet-card__save" data-save-listing aria-pressed="false"><span class="save-label">Save</span></button>
+              </div>
+            </div>
+          </article>
+          <article class="pet-card reveal" data-listing-id="lst-bird" data-category="bird" data-searchable="cockatiel bird" data-listing-title="Cockatiel" data-listing-age="1 year" data-listing-gender="Pair" data-listing-price="85 KD" data-listing-loc="Fahaheel" data-listing-seller="Aviary Bay" data-listing-desc="Friendly pair with cage &amp; starter supplies included.">
+            <div class="pet-card__media pet-card__media--bird" role="img" aria-label="Pet photo placeholder"></div>
+            <div class="pet-card__body">
+              <h3 class="pet-card__title">Cockatiel</h3>
+              <ul class="pet-card__meta">
+                <li><span>Age</span> 1 year</li>
+                <li><span>Gender</span> Pair</li>
+                <li><span>Price</span> 85 KD</li>
+                <li><span>Location</span> Fahaheel</li>
+              </ul>
+              <div class="pet-card__actions">
+                <button type="button" class="btn btn--outline btn--sm btn--block" data-view-listing>View details</button>
+                <button type="button" class="btn btn--primary btn--sm btn--block" data-contact-seller>Contact seller</button>
+                <button type="button" class="btn btn--ghost btn--sm btn--block pet-card__save" data-save-listing aria-pressed="false"><span class="save-label">Save</span></button>
+              </div>
+            </div>
+          </article>
+        </div>
+        <p class="empty-state" id="empty-marketplace" hidden>No pets match your filters. Try All or another category.</p>
+      </div>
+    </section>
