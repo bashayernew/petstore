@@ -8,11 +8,16 @@
   var PASS = "1234";
   var LS_KEY = "isAdminLoggedIn";
 
+  /** Pretty routes on Vercel (/dashboard); plain .html when opening files locally without a server. */
+  function adminDashboardUrl() {
+    return location.protocol === "file:" ? "admin-dashboard.html" : "/dashboard";
+  }
+
   var form = document.getElementById("form-admin-login");
   var err = document.getElementById("login-error");
 
   if (localStorage.getItem(LS_KEY) === "true") {
-    window.location.replace("admin-dashboard.html");
+    window.location.replace(adminDashboardUrl());
     return;
   }
 
@@ -23,7 +28,7 @@
       var p = (document.getElementById("admin-password") || {}).value || "";
       if (u.trim() === USER && p === PASS) {
         localStorage.setItem(LS_KEY, "true");
-        window.location.href = "admin-dashboard.html";
+        window.location.href = adminDashboardUrl();
         return;
       }
       if (err) {

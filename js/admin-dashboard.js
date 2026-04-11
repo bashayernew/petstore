@@ -11,8 +11,13 @@
     return;
   }
 
+  /** Pretty route /admin on Vercel; admin-login.html for file:// or same-folder relative. */
+  function adminLoginUrl() {
+    return location.protocol === "file:" ? "admin-login.html" : "/admin";
+  }
+
   if (localStorage.getItem(LS_LOGIN) !== "true") {
-    window.location.replace("admin-login.html");
+    window.location.replace(adminLoginUrl());
     return;
   }
 
@@ -510,7 +515,7 @@
 
   document.getElementById("admin-logout").addEventListener("click", function () {
     localStorage.removeItem(LS_LOGIN);
-    window.location.href = "admin-login.html";
+    window.location.href = adminLoginUrl();
   });
 
   /* ---- Service CRUD ---- */
