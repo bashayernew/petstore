@@ -220,6 +220,41 @@
         </div>
       </div>
     </section>
+
+    <!-- Same IDs as services.html / marketplace.html so pethub.js can render admin data on the home page -->
+    <section class="section section--services" id="home-live-catalog" aria-labelledby="home-catalog-title">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">Live catalog</p>
+          <h2 id="home-catalog-title" class="section__title">Services &amp; marketplace <span class="text-gradient">from your dashboard</span></h2>
+          <p class="section__lead">These lists use the same saved data as the Services and Marketplace pages. After you edit content in the admin dashboard, refresh this page (or return to this tab) to see updates.</p>
+        </header>
+        <header class="section__head reveal" style="margin-top: 0.5rem">
+          <h3 class="section__title" style="font-size: clamp(1.15rem, 2.5vw, 1.35rem)">Services</h3>
+        </header>
+        <p class="empty-state" id="empty-services" hidden>No services match your search. Try another keyword.</p>
+        <div class="service-grid" id="service-grid"></div>
+        <p class="reveal" style="margin-top: 1rem">
+          <a href="services.html" class="btn btn--outline btn--sm">View all services</a>
+        </p>
+
+        <header class="section__head reveal" style="margin-top: 2rem">
+          <h3 class="section__title" style="font-size: clamp(1.15rem, 2.5vw, 1.35rem)">Marketplace</h3>
+        </header>
+        <div class="filter-bar reveal" role="group" aria-label="Filter marketplace">
+          <button type="button" class="filter-chip is-active" data-filter-market="all">All</button>
+          <button type="button" class="filter-chip" data-filter-market="dog">Dogs</button>
+          <button type="button" class="filter-chip" data-filter-market="cat">Cats</button>
+          <button type="button" class="filter-chip" data-filter-market="bird">Birds</button>
+        </div>
+        <p class="empty-state" id="empty-marketplace" hidden>No listings match your filters.</p>
+        <div class="market-grid" id="market-grid"></div>
+        <p class="reveal" style="margin-top: 1rem">
+          <a href="marketplace.html" class="btn btn--outline btn--sm">Browse full marketplace</a>
+        </p>
+      </div>
+    </section>
+
     <section class="section section--smart" id="health-records" aria-labelledby="smart-title">
       <div class="container">
         <header class="section__head reveal">
@@ -601,6 +636,7 @@
       </form>
     </div>
   </div>
+  <script src="js/storage.js"></script>
   <script src="js/pethub.js"></script>
 </body>
 </html>

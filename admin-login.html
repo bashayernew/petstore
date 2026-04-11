@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PetHub Admin | Sign in</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+  <div class="admin-login-page">
+    <div class="admin-login-card">
+      <h1>PetHub Admin</h1>
+      <p class="sub">Sign in to manage services, listings, and requests.</p>
+      <div id="login-error" class="admin-error" hidden role="alert"></div>
+      <form id="form-admin-login" novalidate>
+        <div class="admin-field">
+          <span>Username</span>
+          <input type="text" name="username" id="admin-username" autocomplete="username" required />
+        </div>
+        <div class="admin-field" style="margin-top: 14px">
+          <span>Password</span>
+          <input type="password" name="password" id="admin-password" autocomplete="current-password" required />
+        </div>
+        <div class="admin-login-actions">
+          <button type="submit" class="btn-admin btn-admin--primary">Sign in</button>
+        </div>
+      </form>
+      <a class="admin-back-link" href="index.html">← Back to PetHub</a>
+    </div>
+  </div>
+  <script src="js/admin-login.js"></script>
+</body>
+</html>

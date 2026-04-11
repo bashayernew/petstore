@@ -109,10 +109,11 @@
         <p class="page-hero__lead">Food, toys, beds, and travel gear — delivered nationwide.</p>
       </div>
     </section>
-    <section class="section section--shop" id="shop" aria-labelledby="shop-title">
+    <section class="section section--shop" id="shop" aria-labelledby="shop-catalog-title">
       <div class="container">
-          <h2 id="shop-title" class="section__title">Premium picks for <span class="text-gradient">every pet</span></h2>
-          <p class="section__lead">Food, play, comfort, and travel — delivered across Kuwait.</p>
+        <header class="section__head reveal">
+          <h2 id="shop-catalog-title" class="section__title">Premium picks for <span class="text-gradient">every pet</span></h2>
+          <p class="section__lead">Food, play, comfort, and travel — delivered across Kuwait. Products are loaded from saved shop data.</p>
         </header>
         <div class="filter-bar reveal" role="group" aria-label="Filter products">
           <button type="button" class="filter-chip is-active" data-filter-shop="all">All</button>
@@ -123,176 +124,10 @@
           <button type="button" class="filter-chip" data-filter-shop="carriers">Carriers</button>
           <button type="button" class="filter-chip" data-filter-shop="accessories">Accessories</button>
         </div>
-        <div class="product-grid" id="product-grid">
-          <article class="product-card reveal" data-product-id="p-food-1" data-product-name="Wild Coast · Adult formula" data-product-price="24.5" data-shop-cat="food" data-searchable="food nutrition kibble dry dog">
-            <div class="product-card__media">
-              <img class="product-card__img" src="images/shop-wild-coast.jpg" alt="Wild Coast grain-friendly dog food bag with bowl and dog" width="700" height="700" loading="lazy" decoding="async" />
-            </div>
-            <div class="product-card__body">
-              <h3 class="product-card__title">Wild Coast · Adult formula</h3>
-              <p class="product-card__desc">Grain-friendly nutrition for active dogs — 12kg.</p>
-              <span class="product-card__price">24.5 KD</span>
-              <div class="product-card__cart-row">
-                <label class="qty-field"><span class="visually-hidden">Quantity</span><input type="number" class="input input--qty" data-product-qty min="1" max="99" value="1" /></label>
-                <button type="button" class="btn btn--primary btn--sm" data-add-cart>Add to cart</button>
-              </div>
-            </div>
-          </article>
-          <article class="product-card reveal" data-product-id="p-toy-1" data-product-name="OrbitChew · Dental ring" data-product-price="6.9" data-shop-cat="toys" data-searchable="toy chew rubber ring dental">
-            <div class="product-card__media">
-              <img class="product-card__img" src="images/shop-orbit-chew.jpg" alt="Dog with OrbitChew dental ring chew toy" width="700" height="700" loading="lazy" decoding="async" />
-            </div>
-            <div class="product-card__body">
-              <h3 class="product-card__title">OrbitChew · Dental ring</h3>
-              <p class="product-card__desc">Durable rubber with treat pockets — medium.</p>
-              <span class="product-card__price">6.9 KD</span>
-              <div class="product-card__cart-row">
-                <label class="qty-field"><span class="visually-hidden">Quantity</span><input type="number" class="input input--qty" data-product-qty min="1" max="99" value="1" /></label>
-                <button type="button" class="btn btn--primary btn--sm" data-add-cart>Add to cart</button>
-              </div>
-            </div>
-          </article>
-          <article class="product-card reveal" data-product-id="p-groom-1" data-product-name="SilkPaw · Sensitive shampoo" data-product-price="8.25" data-shop-cat="grooming" data-searchable="shampoo grooming bath bottle">
-            <div class="product-card__media">
-              <img class="product-card__img" src="images/shop-silkpaw.jpg" alt="SilkPaw sensitive shampoo bottles with dog" width="700" height="700" loading="lazy" decoding="async" />
-            </div>
-            <div class="product-card__body">
-              <h3 class="product-card__title">SilkPaw · Sensitive shampoo</h3>
-              <p class="product-card__desc">Hypoallergenic coat care — cats &amp; dogs.</p>
-              <span class="product-card__price">8.25 KD</span>
-              <div class="product-card__cart-row">
-                <label class="qty-field"><span class="visually-hidden">Quantity</span><input type="number" class="input input--qty" data-product-qty min="1" max="99" value="1" /></label>
-                <button type="button" class="btn btn--primary btn--sm" data-add-cart>Add to cart</button>
-              </div>
-            </div>
-          </article>
-          <article class="product-card reveal" data-product-id="p-bed-1" data-product-name="CloudNest · Ortho bed" data-product-price="42" data-shop-cat="beds" data-searchable="bed sleep cushion dog">
-            <div class="product-card__media">
-              <img class="product-card__img" src="images/shop-cloudnest.jpg" alt="Dog resting in CloudNest ortho pet bed" width="700" height="700" loading="lazy" decoding="async" />
-            </div>
-            <div class="product-card__body">
-              <h3 class="product-card__title">CloudNest · Ortho bed</h3>
-              <p class="product-card__desc">Cooling gel memory foam — large breed.</p>
-              <span class="product-card__price">42 KD</span>
-              <div class="product-card__cart-row">
-                <label class="qty-field"><span class="visually-hidden">Quantity</span><input type="number" class="input input--qty" data-product-qty min="1" max="99" value="1" /></label>
-                <button type="button" class="btn btn--primary btn--sm" data-add-cart>Add to cart</button>
-              </div>
-            </div>
-          </article>
-          <article class="product-card reveal" data-product-id="p-carrier-1" data-product-name="AeroPet · Cabin carrier" data-product-price="55" data-shop-cat="carriers" data-searchable="carrier travel crate airline">
-            <div class="product-card__media">
-              <img class="product-card__img" src="images/shop-aeropet.jpg" alt="Dog in AeroPet cabin travel carrier" width="700" height="700" loading="lazy" decoding="async" />
-            </div>
-            <div class="product-card__body">
-              <h3 class="product-card__title">AeroPet · Cabin carrier</h3>
-              <p class="product-card__desc">IATA-friendly shell with airflow windows.</p>
-              <span class="product-card__price">55 KD</span>
-              <div class="product-card__cart-row">
-                <label class="qty-field"><span class="visually-hidden">Quantity</span><input type="number" class="input input--qty" data-product-qty min="1" max="99" value="1" /></label>
-                <button type="button" class="btn btn--primary btn--sm" data-add-cart>Add to cart</button>
-              </div>
-            </div>
-          </article>
-          <article class="product-card reveal" data-product-id="p-acc-1" data-product-name="TrailLite · LED harness set" data-product-price="18" data-shop-cat="accessories" data-searchable="leash harness walk reflective accessories">
-            <div class="product-card__media">
-              <img class="product-card__img" src="images/shop-traillite.jpg" alt="Dog wearing TrailLite LED harness on an evening walk" width="700" height="700" loading="lazy" decoding="async" />
-            </div>
-            <div class="product-card__body">
-              <h3 class="product-card__title">TrailLite · LED harness set</h3>
-              <p class="product-card__desc">Reflective, rechargeable — evening walks.</p>
-              <span class="product-card__price">18 KD</span>
-              <div class="product-card__cart-row">
-                <label class="qty-field"><span class="visually-hidden">Quantity</span><input type="number" class="input input--qty" data-product-qty min="1" max="99" value="1" /></label>
-                <button type="button" class="btn btn--primary btn--sm" data-add-cart>Add to cart</button>
-              </div>
-            </div>
-          </article>
-          <article class="product-card reveal" data-product-id="p-food-2" data-product-name="WhiskerBay · Salmon pâté" data-product-price="11.5" data-shop-cat="food" data-searchable="cat wet food salmon pâté">
-            <div class="product-card__media">
-              <img class="product-card__img" src="images/shop-whiskerbay.jpg" alt="Cat eating WhiskerBay salmon pâté from a bowl" width="700" height="700" loading="lazy" decoding="async" />
-            </div>
-            <div class="product-card__body">
-              <h3 class="product-card__title">WhiskerBay · Salmon pâté</h3>
-              <p class="product-card__desc">Grain-free trays for adult cats — 12 × 85g.</p>
-              <span class="product-card__price">11.5 KD</span>
-              <div class="product-card__cart-row">
-                <label class="qty-field"><span class="visually-hidden">Quantity</span><input type="number" class="input input--qty" data-product-qty min="1" max="99" value="1" /></label>
-                <button type="button" class="btn btn--primary btn--sm" data-add-cart>Add to cart</button>
-              </div>
-            </div>
-          </article>
-          <article class="product-card reveal" data-product-id="p-food-3" data-product-name="TrainTime · Soft training treats" data-product-price="4.75" data-shop-cat="food" data-searchable="treats training reward snack dog">
-            <div class="product-card__media">
-              <img class="product-card__img" src="images/shop-traintime.jpg" alt="TrainTime soft training treats pouch with dog" width="700" height="700" loading="lazy" decoding="async" />
-            </div>
-            <div class="product-card__body">
-              <h3 class="product-card__title">TrainTime · Soft training treats</h3>
-              <p class="product-card__desc">Low-calorie bites — resealable 300g pouch.</p>
-              <span class="product-card__price">4.75 KD</span>
-              <div class="product-card__cart-row">
-                <label class="qty-field"><span class="visually-hidden">Quantity</span><input type="number" class="input input--qty" data-product-qty min="1" max="99" value="1" /></label>
-                <button type="button" class="btn btn--primary btn--sm" data-add-cart>Add to cart</button>
-              </div>
-            </div>
-          </article>
-          <article class="product-card reveal" data-product-id="p-toy-2" data-product-name="NimbusWand · Feather teaser" data-product-price="5.5" data-shop-cat="toys" data-searchable="cat toy wand feather chase">
-            <div class="product-card__media">
-              <img class="product-card__img" src="images/shop-nimbuswand.jpg" alt="Cat playing with NimbusWand feather teaser" width="700" height="700" loading="lazy" decoding="async" />
-            </div>
-            <div class="product-card__body">
-              <h3 class="product-card__title">NimbusWand · Feather teaser</h3>
-              <p class="product-card__desc">Extendable wand with replaceable feathers.</p>
-              <span class="product-card__price">5.5 KD</span>
-              <div class="product-card__cart-row">
-                <label class="qty-field"><span class="visually-hidden">Quantity</span><input type="number" class="input input--qty" data-product-qty min="1" max="99" value="1" /></label>
-                <button type="button" class="btn btn--primary btn--sm" data-add-cart>Add to cart</button>
-              </div>
-            </div>
-          </article>
-          <article class="product-card reveal" data-product-id="p-groom-2" data-product-name="FurLogic · Slicker brush" data-product-price="7.9" data-shop-cat="grooming" data-searchable="brush slicker coat deshedding">
-            <div class="product-card__media">
-              <img class="product-card__img" src="images/shop-furlogic.jpg" alt="FurLogic slicker brush grooming a dog" width="700" height="700" loading="lazy" decoding="async" />
-            </div>
-            <div class="product-card__body">
-              <h3 class="product-card__title">FurLogic · Slicker brush</h3>
-              <p class="product-card__desc">Fine pins with comfort tips — medium coat.</p>
-              <span class="product-card__price">7.9 KD</span>
-              <div class="product-card__cart-row">
-                <label class="qty-field"><span class="visually-hidden">Quantity</span><input type="number" class="input input--qty" data-product-qty min="1" max="99" value="1" /></label>
-                <button type="button" class="btn btn--primary btn--sm" data-add-cart>Add to cart</button>
-              </div>
-            </div>
-          </article>
-          <article class="product-card reveal" data-product-id="p-acc-2" data-product-name="TidyStrap · Bag dispenser" data-product-price="3.25" data-shop-cat="accessories" data-searchable="poop bags waste dispenser walk">
-            <div class="product-card__media">
-              <img class="product-card__img" src="images/shop-tidystrap.jpg" alt="TidyStrap waste bag dispenser clipped to leash on a walk" width="700" height="700" loading="lazy" decoding="async" />
-            </div>
-            <div class="product-card__body">
-              <h3 class="product-card__title">TidyStrap · Bag dispenser</h3>
-              <p class="product-card__desc">Clip-on dispenser + 120 compostable rolls.</p>
-              <span class="product-card__price">3.25 KD</span>
-              <div class="product-card__cart-row">
-                <label class="qty-field"><span class="visually-hidden">Quantity</span><input type="number" class="input input--qty" data-product-qty min="1" max="99" value="1" /></label>
-                <button type="button" class="btn btn--primary btn--sm" data-add-cart>Add to cart</button>
-              </div>
-            </div>
-          </article>
-          <article class="product-card reveal" data-product-id="p-acc-3" data-product-name="PureFlow · Ceramic fountain" data-product-price="32" data-shop-cat="accessories" data-searchable="fountain water bowl cat dog drink">
-            <div class="product-card__media">
-              <img class="product-card__img" src="images/shop-pureflow.jpg" alt="Dog drinking from PureFlow ceramic water fountain" width="700" height="700" loading="lazy" decoding="async" />
-            </div>
-            <div class="product-card__body">
-              <h3 class="product-card__title">PureFlow · Ceramic fountain</h3>
-              <p class="product-card__desc">2L quiet pump, charcoal filter — dishwasher safe top.</p>
-              <span class="product-card__price">32 KD</span>
-              <div class="product-card__cart-row">
-                <label class="qty-field"><span class="visually-hidden">Quantity</span><input type="number" class="input input--qty" data-product-qty min="1" max="99" value="1" /></label>
-                <button type="button" class="btn btn--primary btn--sm" data-add-cart>Add to cart</button>
-              </div>
-            </div>
-          </article>
-        </div>
+        <p class="empty-state" id="empty-shop" hidden>No products in this view. Try another category or clear search.</p>
+        <div class="product-grid" id="product-grid"></div>
+      </div>
+    </section>
   </main>
   <footer class="footer" id="site-footer">
     <div class="container footer__grid">
@@ -334,8 +169,6 @@
     <div class="container footer__bottom">
       <p>&copy; <span id="year"></span> PetHub. All rights reserved.</p>
       <p class="footer__legal"><a href="#">Privacy</a> · <a href="#">Terms</a></p>
-    </div>
-  </footer>
     </div>
   </footer>
 
@@ -429,6 +262,7 @@
     </div>
   </div>
 
+  <script src="js/storage.js"></script>
   <script src="js/pethub.js"></script>
 </body>
 </html>

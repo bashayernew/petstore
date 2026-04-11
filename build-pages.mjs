@@ -201,6 +201,7 @@ const rescheduleModal = `
 `;
 
 const script = `
+  <script src="js/storage.js"></script>
   <script src="js/pethub.js"></script>
 </body>
 </html>

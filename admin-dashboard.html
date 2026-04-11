@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PetHub | Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body class="admin-body">
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar__brand">PetHub <span>Admin</span></div>
+      <ul class="admin-nav">
+        <li><button type="button" data-admin-view="dashboard" class="is-active">Dashboard</button></li>
+        <li><button type="button" data-admin-view="services">Services</button></li>
+        <li><button type="button" data-admin-view="marketplace">Marketplace</button></li>
+        <li><button type="button" data-admin-view="shop">Shop</button></li>
+        <li><button type="button" data-admin-view="bookings">Bookings</button></li>
+        <li><button type="button" data-admin-view="pets">Pet Profiles</button></li>
+        <li><button type="button" data-admin-view="messages">Messages</button></li>
+        <li><button type="button" data-admin-view="emergency">Emergency</button></li>
+      </ul>
+      <div class="admin-sidebar__foot">
+        <button type="button" class="btn-admin btn-admin--ghost" id="admin-logout" style="width: 100%">Logout</button>
+      </div>
+    </aside>
+    <div class="admin-main-wrap">
+      <header class="admin-topbar">
+        <h1 id="admin-page-title">Dashboard</h1>
+        <p id="admin-page-desc">Overview of PetHub demo data stored in this browser.</p>
+      </header>
+      <main class="admin-content" id="admin-main">
+        <section class="admin-view" id="view-dashboard" data-title="Dashboard" data-desc="Overview of PetHub demo data stored in this browser.">
+          <div class="admin-kpi-grid" id="admin-kpi"></div>
+        </section>
+
+        <section class="admin-view" id="view-services" hidden data-title="Services" data-desc="Manage service cards shown on the Services page.">
+          <div class="admin-panel">
+            <div class="admin-panel__head">
+              <h2>Services</h2>
+              <button type="button" class="btn-admin btn-admin--primary btn-admin--sm" data-action="add-service">Add service</button>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="table-services">
+                <thead>
+                  <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-view" id="view-marketplace" hidden data-title="Marketplace" data-desc="Pet listings on the Marketplace page.">
+          <div class="admin-panel">
+            <div class="admin-panel__head">
+              <h2>Listings</h2>
+              <button type="button" class="btn-admin btn-admin--primary btn-admin--sm" data-action="add-listing">Add listing</button>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="table-marketplace">
+                <thead>
+                  <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Age</th>
+                    <th>Price</th>
+                    <th>Location</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-view" id="view-shop" hidden data-title="Shop" data-desc="Products shown on the Shop page (shopProducts in localStorage).">
+          <div class="admin-kpi-grid" id="admin-shop-kpis" style="margin-bottom: 1.25rem"></div>
+          <div class="admin-panel">
+            <div class="admin-panel__head">
+              <h2>Shop products</h2>
+              <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+                <label class="admin-inline-filter" style="display: flex; align-items: center; gap: 8px; font-size: 0.875rem; color: var(--admin-muted)">
+                  Category
+                  <select id="shop-admin-cat-filter" class="input" style="min-width: 160px; padding: 8px 10px">
+                    <option value="all">All categories</option>
+                    <option value="food">Food</option>
+                    <option value="toys">Toys</option>
+                    <option value="grooming">Grooming</option>
+                    <option value="beds">Beds</option>
+                    <option value="carriers">Carriers</option>
+                    <option value="accessories">Accessories</option>
+                  </select>
+                </label>
+                <button type="button" class="btn-admin btn-admin--primary btn-admin--sm" data-action="add-shop-product">Add product</button>
+              </div>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="table-shop">
+                <thead>
+                  <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Brand</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Badge</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-view" id="view-bookings" hidden data-title="Bookings" data-desc="Service bookings from the site.">
+          <div class="admin-panel">
+            <div class="admin-panel__head">
+              <h2>Bookings</h2>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="table-bookings">
+                <thead>
+                  <tr>
+                    <th>Service</th>
+                    <th>When</th>
+                    <th>Pet</th>
+                    <th>Owner</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-view" id="view-pets" hidden data-title="Pet profiles" data-desc="Pet health profiles (Bookings dashboard).">
+          <div class="admin-panel">
+            <div class="admin-panel__head">
+              <h2>Pet profiles</h2>
+              <button type="button" class="btn-admin btn-admin--primary btn-admin--sm" data-action="add-pet">Add profile</button>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="table-pets">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Breed</th>
+                    <th>Age</th>
+                    <th>Vaccination</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-view" id="view-messages" hidden data-title="Contact messages" data-desc="Messages from the Contact page.">
+          <div class="admin-panel">
+            <div class="admin-panel__head">
+              <h2>Messages</h2>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="table-messages">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Topic</th>
+                    <th>Message</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-view" id="view-emergency" hidden data-title="Emergency requests" data-desc="Urgent veterinary requests from the Emergency modal.">
+          <div class="admin-panel">
+            <div class="admin-panel__head">
+              <h2>Emergency requests</h2>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="table-emergency">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>Issue</th>
+                    <th>Location</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="admin-modal-overlay" id="admin-modal" hidden>
+    <div class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
+      <h3 id="admin-modal-title">Edit</h3>
+      <form id="admin-modal-form"></form>
+      <div style="margin-top: 18px; display: flex; gap: 10px; justify-content: flex-end">
+        <button type="button" class="btn-admin btn-admin--ghost btn-admin--sm" id="admin-modal-cancel">Cancel</button>
+        <button type="submit" form="admin-modal-form" class="btn-admin btn-admin--primary btn-admin--sm">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/admin-dashboard.js"></script>
+</body>
+</html>

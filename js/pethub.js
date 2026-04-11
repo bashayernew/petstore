@@ -5,6 +5,16 @@
   "use strict";
 
   var STORAGE_KEY = "pethub_demo_v1";
+  /** Keeps focus-based refresh from looping; updated when this tab writes ROOT. */
+  var lastKnownRootJson = "";
+
+  function updateRootSnapRef() {
+    try {
+      if (window.PetHubApp && PetHubApp.ROOT_KEY) {
+        lastKnownRootJson = localStorage.getItem(PetHubApp.ROOT_KEY) || "";
+      }
+    } catch (e) {}
+  }
 
   function uid() {
     return "ph_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
@@ -29,34 +39,81 @@
 
   function persistState() {
     try {
+      /* Bookings + pet profiles live in PetHubApp (pethub_app_v1), not here — avoids split-brain. */
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
           user: state.user,
           cart: state.cart,
-          bookings: state.bookings,
           orders: state.orders,
-          pets: state.pets,
           savedListings: Array.from(state.savedListings),
           savedListingDetails: state.savedListingDetails,
         })
       );
     } catch (e) {}
+    pushToPetHubApp();
+  }
+
+  function profileToStatePet(p) {
+    return {
+      id: p.id,
+      name: p.name,
+      type: p.type,
+      breed: p.breed || "",
+      age: p.age || "",
+      vaccDate: p.vaccinationDate || "",
+      notes: p.notes || "",
+    };
+  }
+
+  function syncFromPetHubApp() {
+    if (!window.PetHubApp) return;
+    try {
+      PetHubApp.ensureSeedData();
+      /* Always mirror app store (including empty arrays) so admin/public stay in sync. */
+      state.bookings = PetHubApp.getData("bookings").slice();
+      state.pets = PetHubApp.getData("petProfiles").map(profileToStatePet);
+    } catch (e) {}
+  }
+
+  function pushToPetHubApp() {
+    if (!window.PetHubApp) return;
+    try {
+      PetHubApp.saveData("bookings", state.bookings);
+      PetHubApp.saveData(
+        "petProfiles",
+        state.pets.map(function (p) {
+          return {
+            id: p.id,
+            name: p.name,
+            type: p.type,
+            breed: p.breed,
+            age: p.age,
+            vaccinationDate: p.vaccDate || "",
+            notes: p.notes || "",
+          };
+        })
+      );
+      if (PetHubApp.syncLegacyMirror) PetHubApp.syncLegacyMirror();
+    } catch (e) {}
+    updateRootSnapRef();
   }
 
   function hydrateState() {
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      var o = JSON.parse(raw);
-      if (o.user !== undefined) state.user = o.user;
-      if (Array.isArray(o.cart)) state.cart = o.cart;
-      if (Array.isArray(o.bookings)) state.bookings = o.bookings;
-      if (Array.isArray(o.orders)) state.orders = o.orders;
-      if (Array.isArray(o.pets)) state.pets = o.pets;
-      state.savedListings = new Set(o.savedListings || []);
-      state.savedListingDetails = o.savedListingDetails && typeof o.savedListingDetails === "object" ? o.savedListingDetails : {};
+      if (raw) {
+        var o = JSON.parse(raw);
+        if (o.user !== undefined) state.user = o.user;
+        if (Array.isArray(o.cart)) state.cart = o.cart;
+        if (Array.isArray(o.orders)) state.orders = o.orders;
+        state.savedListings = new Set(o.savedListings || []);
+        state.savedListingDetails =
+          o.savedListingDetails && typeof o.savedListingDetails === "object" ? o.savedListingDetails : {};
+      }
     } catch (e) {}
+    /* Bookings + pets: only from PetHubApp / pethub_app_v1 */
+    syncFromPetHubApp();
   }
 
   var els = {};
@@ -526,6 +583,223 @@
     return d.innerHTML;
   }
 
+  function populateBookingServiceSelects() {
+    if (!window.PetHubApp) return;
+    try {
+      var svcs = PetHubApp.getData("services").filter(function (x) {
+        return x.status !== "inactive";
+      });
+      var opts = svcs
+        .map(function (s) {
+          return "<option>" + escapeHtml(s.title) + "</option>";
+        })
+        .join("");
+      $all('select[name="service"]').forEach(function (sel) {
+        var keep = sel.querySelector('option[value=""]');
+        var head = keep ? keep.outerHTML : '<option value="">Select service</option>';
+        sel.innerHTML = head + opts;
+      });
+    } catch (e) {}
+  }
+
+  function renderServicesGridFromStorage() {
+    var grid = $("#service-grid");
+    if (!grid || !window.PetHubApp) return;
+    try {
+      var list = PetHubApp.getData("services").filter(function (x) {
+        return x.status !== "inactive";
+      });
+      if (!list.length) {
+        grid.innerHTML = "";
+        return;
+      }
+      var svgIcon =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>';
+      grid.innerHTML = list
+        .map(function (s) {
+          var isEm = (s.title || "").indexOf("Emergency") !== -1;
+          var btnLabel = isEm ? "Get help" : "Book now";
+          return (
+            '<article class="service-card reveal" data-searchable="' +
+            escapeHtml(s.searchable || s.title) +
+            '" data-service="' +
+            escapeHtml(s.title) +
+            '"><div class="service-card__media' +
+            (isEm ? " service-card__media--emergency" : "") +
+            '"><img src="' +
+            escapeHtml(s.image) +
+            '" alt="" width="800" height="520" loading="lazy" decoding="async" /></div><div class="service-card__body"><div class="service-card__icon' +
+            (isEm ? " service-card__icon--alert" : "") +
+            '" aria-hidden="true">' +
+            svgIcon +
+            '</div><h3 class="service-card__title">' +
+            escapeHtml(s.title) +
+            '</h3><p class="service-card__text">' +
+            escapeHtml(s.description) +
+            '</p><button type="button" class="btn btn--soft service-card__btn" data-open-booking>' +
+            btnLabel +
+            "</button></div></article>"
+          );
+        })
+        .join("");
+    } catch (e) {}
+  }
+
+  function renderMarketplaceGridFromStorage() {
+    var grid = $("#market-grid");
+    if (!grid || !window.PetHubApp) return;
+    try {
+      var list = PetHubApp.getData("marketplaceListings");
+      if (!list.length) {
+        grid.innerHTML = "";
+        return;
+      }
+      grid.innerHTML = list
+        .map(function (L) {
+          var cat = (L.type || "dog").toLowerCase();
+          return (
+            '<article class="pet-card reveal" data-listing-id="' +
+            escapeHtml(L.id) +
+            '" data-category="' +
+            escapeHtml(cat) +
+            '" data-searchable="' +
+            escapeHtml(L.searchable || L.name) +
+            '" data-listing-title="' +
+            escapeHtml(L.name) +
+            '" data-listing-age="' +
+            escapeHtml(L.age) +
+            '" data-listing-gender="' +
+            escapeHtml(L.gender) +
+            '" data-listing-price="' +
+            escapeHtml(L.price) +
+            '" data-listing-loc="' +
+            escapeHtml(L.location) +
+            '" data-listing-seller="' +
+            escapeHtml(L.seller || "") +
+            '" data-listing-desc="' +
+            escapeHtml(L.description || "") +
+            '"><div class="pet-card__media"><img class="pet-card__img" src="' +
+            escapeHtml(
+              PetHubApp.resolveMarketplaceListingImage
+                ? PetHubApp.resolveMarketplaceListingImage(L)
+                : L.image
+            ) +
+            '" alt="" width="800" height="600" loading="lazy" decoding="async" /><div class="pet-card__gradient" aria-hidden="true"></div></div><div class="pet-card__body"><h3 class="pet-card__title">' +
+            escapeHtml(L.name) +
+            '</h3><ul class="pet-card__meta"><li><span>Age</span> ' +
+            escapeHtml(L.age) +
+            '</li><li><span>Gender</span> ' +
+            escapeHtml(L.gender) +
+            '</li><li><span>Price</span> ' +
+            escapeHtml(L.price) +
+            '</li><li><span>Location</span> ' +
+            escapeHtml(L.location) +
+            '</li></ul><div class="pet-card__actions"><button type="button" class="btn btn--outline btn--sm btn--block" data-view-listing>View details</button><button type="button" class="btn btn--primary btn--sm btn--block" data-contact-seller>Contact seller</button><button type="button" class="btn btn--ghost btn--sm btn--block pet-card__save" data-save-listing aria-pressed="false"><span class="save-label">Save</span><span class="save-heart" aria-hidden="true"> ♥</span></button></div></div></article>'
+          );
+        })
+        .join("");
+    } catch (e) {}
+  }
+
+  function formatShopPriceDisplay(n) {
+    var x = typeof n === "number" ? n : parseFloat(String(n || "").replace(/[^\d.]/g, ""));
+    if (isNaN(x)) x = 0;
+    return (Math.abs(x % 1) < 0.001 ? String(Math.round(x)) : x.toFixed(2)) + " KD";
+  }
+
+  function renderShopProductGridFromStorage() {
+    var grid = $("#product-grid");
+    if (!grid || !window.PetHubApp) return;
+    if (document.body.getAttribute("data-page") !== "shop") return;
+    try {
+      var all = PetHubApp.getData("shopProducts");
+      console.log("[PetHubShop] loading shopProducts for grid", all.length, "items");
+      var list = all.filter(function (p) {
+        return String(p.status || "").toLowerCase() === "active";
+      });
+      var empty = $("#empty-shop");
+      if (!list.length) {
+        grid.innerHTML = "";
+        if (empty) empty.hidden = false;
+        return;
+      }
+      if (empty) empty.hidden = true;
+      grid.innerHTML = list
+        .map(function (p) {
+          var cat = String(p.category || "").trim().toLowerCase();
+          var priceNum =
+            typeof p.price === "number" ? p.price : parseFloat(String(p.price || "0").replace(/[^\d.]/g, "")) || 0;
+          var stock = parseInt(p.stock, 10);
+          if (isNaN(stock)) stock = 0;
+          var oos = stock <= 0;
+          var maxQty = oos ? 0 : Math.min(99, stock);
+          var searchBits = [p.name, p.brand, cat, p.description, p.searchable || ""].join(" ");
+          var badgeHtml =
+            p.badge && String(p.badge).trim()
+              ? '<span class="product-card__tag">' + escapeHtml(String(p.badge).trim()) + "</span>"
+              : "";
+          var stockLine = oos
+            ? '<p class="product-card__stock product-card__stock--out">Out of stock</p>'
+            : '<p class="product-card__stock">In stock: ' + stock + "</p>";
+          var btn = oos
+            ? '<button type="button" class="btn btn--primary btn--sm" disabled>Out of stock</button>'
+            : '<button type="button" class="btn btn--primary btn--sm" data-add-cart>Add to cart</button>';
+          return (
+            '<article class="product-card reveal' +
+            (oos ? " product-card--out-stock" : "") +
+            '" data-product-id="' +
+            escapeHtml(p.id) +
+            '" data-product-name="' +
+            escapeHtml(p.name) +
+            '" data-product-price="' +
+            priceNum +
+            '" data-product-stock="' +
+            stock +
+            '" data-shop-cat="' +
+            escapeHtml(cat) +
+            '" data-searchable="' +
+            escapeHtml(searchBits) +
+            '"><div class="product-card__media">' +
+            (oos ? '<span class="product-card__oos-ribbon" aria-hidden="true">Out of stock</span>' : "") +
+            '<img class="product-card__img" src="' +
+            escapeHtml(p.image || "") +
+            '" alt="" width="700" height="700" loading="lazy" decoding="async" /></div><div class="product-card__body">' +
+            '<p class="product-card__brand">' +
+            escapeHtml(p.brand || "") +
+            "</p>" +
+            badgeHtml +
+            '<h3 class="product-card__title">' +
+            escapeHtml(p.name) +
+            '</h3><p class="product-card__desc">' +
+            escapeHtml(p.description || "") +
+            '</p><span class="product-card__price">' +
+            formatShopPriceDisplay(priceNum) +
+            "</span>" +
+            stockLine +
+            '<div class="product-card__cart-row"><label class="qty-field"><span class="visually-hidden">Quantity</span><input type="number" class="input input--qty" data-product-qty min="' +
+            (oos ? "0" : "1") +
+            '" max="' +
+            maxQty +
+            '" value="1"' +
+            (oos ? " disabled" : "") +
+            " /></label>" +
+            btn +
+            "</div></div></article>"
+          );
+        })
+        .join("");
+    } catch (e) {
+      console.warn("[PetHubShop] render grid error", e);
+    }
+  }
+
+  function renderDynamicPagesFromStorage() {
+    renderServicesGridFromStorage();
+    renderMarketplaceGridFromStorage();
+    renderShopProductGridFromStorage();
+    populateBookingServiceSelects();
+  }
+
   function clearFieldError(input) {
     input.classList.remove("input--error");
     var msg = input.parentElement && input.parentElement.querySelector(".field-error");
@@ -844,7 +1118,6 @@
     renderOrders();
     renderSavedPets();
     renderPetCards();
-    updateListingSaveButtons();
     updateAuthUI();
 
     document.addEventListener("click", function (e) {
@@ -1031,6 +1304,10 @@
       });
     });
 
+    renderDynamicPagesFromStorage();
+    updateListingSaveButtons();
+    applyFilters();
+
     /* Reveal on scroll */
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
       var io = new IntersectionObserver(
@@ -1083,13 +1360,26 @@
     document.addEventListener("click", function (e) {
       var addBtn = e.target.closest && e.target.closest("[data-add-cart]");
       if (!addBtn) return;
+      if (addBtn.hasAttribute("disabled")) return;
       var card = addBtn.closest(".product-card");
       if (!card) return;
       var id = card.getAttribute("data-product-id");
       var name = card.getAttribute("data-product-name");
       var price = parseFloat(card.getAttribute("data-product-price") || "0");
+      var stockAttr = card.getAttribute("data-product-stock");
+      var stock = stockAttr != null && stockAttr !== "" ? parseInt(stockAttr, 10) : 999;
+      if (isNaN(stock)) stock = 999;
       var qtyInput = card.querySelector("[data-product-qty]");
       var q = qtyInput ? parseInt(qtyInput.value, 10) || 1 : 1;
+      if (stock <= 0) {
+        showToast("This item is out of stock", "error");
+        return;
+      }
+      if (q > stock) {
+        q = stock;
+        if (qtyInput) qtyInput.value = String(stock);
+        showToast("Only " + stock + " in stock — quantity adjusted", "info");
+      }
       addLineToCart(id, name, price, q);
       if (qtyInput) qtyInput.value = "1";
       updateCartBadge();
@@ -1403,11 +1693,36 @@
       });
     });
 
+    $("#form-contact-page") &&
+      $("#form-contact-page").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var f = e.target;
+        if (!validateRequired(f, ["name", "email", "topic", "message"])) return;
+        if (window.PetHubApp) {
+          PetHubApp.addItem("contactMessages", {
+            name: f.name.value.trim(),
+            email: f.email.value.trim(),
+            topic: f.topic.value,
+            message: f.message.value.trim(),
+          });
+        }
+        showToast("Message sent — we’ll get back to you soon.", "success");
+        f.reset();
+      });
+
     $("#form-emergency") &&
       $("#form-emergency").addEventListener("submit", function (e) {
         e.preventDefault();
         var f = e.target;
         if (!validateRequired(f, ["issue", "location", "contact"])) return;
+        if (window.PetHubApp) {
+          PetHubApp.addItem("emergencyRequests", {
+            issue: f.issue.value.trim(),
+            location: f.location.value.trim(),
+            phone: f.contact.value.trim(),
+            status: "urgent",
+          });
+        }
         closeModal($("#modal-emergency"));
         showToast(
           "Emergency request sent. A veterinary provider will contact you shortly.",
@@ -1493,7 +1808,7 @@
           if (ok) visP++;
         });
       }
-      if (emptyShop) emptyShop.hidden = !hasProd || visP !== 0;
+      if (emptyShop) emptyShop.hidden = hasProd && visP > 0;
     }
 
     var gs = $("#global-search");
@@ -1541,6 +1856,37 @@
     });
 
     applyFilters();
+
+    function refreshPublicUiFromStorage() {
+      hydrateState();
+      renderBookings();
+      renderOrders();
+      renderSavedPets();
+      renderPetCards();
+      updateCartBadge();
+      renderDynamicPagesFromStorage();
+      updateListingSaveButtons();
+      applyFilters();
+    }
+
+    updateRootSnapRef();
+
+    window.addEventListener("storage", function (e) {
+      if (!window.PetHubApp || !PetHubApp.ROOT_KEY) return;
+      if (e.key !== PetHubApp.ROOT_KEY && e.key !== STORAGE_KEY) return;
+      updateRootSnapRef();
+      refreshPublicUiFromStorage();
+    });
+
+    window.addEventListener("focus", function () {
+      if (!window.PetHubApp || !PetHubApp.ROOT_KEY) return;
+      try {
+        var now = localStorage.getItem(PetHubApp.ROOT_KEY) || "";
+        if (now === lastKnownRootJson) return;
+        lastKnownRootJson = now;
+        refreshPublicUiFromStorage();
+      } catch (err) {}
+    });
 
     initChat();
 
