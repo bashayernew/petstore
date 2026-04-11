@@ -1,7 +1,8 @@
 /**
  * PetHub — single localStorage source of truth (ROOT_KEY).
- * Keys: services, marketplaceListings, bookings, petProfiles, contactMessages, emergencyRequests, shopProducts
- * Legacy pethub_demo_v1 is used only for cart/user/orders/saved (see pethub.js), not for the seven keys above.
+ * Keys include services, marketplaceListings, bookings, petProfiles, contactMessages, emergencyRequests,
+ * shopProducts, supportMessages, marketplaceInquiries, shopOrders, shopCart.
+ * Legacy pethub_demo_v1 holds user + saved listings (see pethub.js); cart/orders sync to ROOT shopCart/shopOrders.
  */
 (function (global) {
   "use strict";
@@ -17,6 +18,10 @@
     "contactMessages",
     "emergencyRequests",
     "shopProducts",
+    "supportMessages",
+    "marketplaceInquiries",
+    "shopOrders",
+    "shopCart",
   ];
 
   /**
@@ -655,6 +660,15 @@
     if (row.status) row.status = String(row.status).trim().toLowerCase();
   }
 
+  function normalizeShopOrderRow(row) {
+    if (!row || typeof row !== "object") return;
+    if (row.total != null && row.total !== "") row.total = parseFloat(row.total);
+    if (isNaN(row.total)) row.total = 0;
+    if (!row.status) row.status = "new";
+    if (row.status) row.status = String(row.status).trim().toLowerCase();
+    if (!Array.isArray(row.items)) row.items = [];
+  }
+
   function saveData(key, data) {
     ensureSeedData();
     if (KEYS.indexOf(key) === -1) {
@@ -681,6 +695,16 @@
     if (key === "bookings" && !row.createdAt) row.createdAt = Date.now();
     if (key === "shopProducts") normalizeShopProductRow(row);
     if (key === "marketplaceListings") ensureMarketplaceImageOnCreate(row);
+    if (key === "shopOrders") normalizeShopOrderRow(row);
+    if (
+      (key === "supportMessages" || key === "marketplaceInquiries" || key === "shopOrders") &&
+      !row.createdAt
+    ) {
+      row.createdAt = Date.now();
+    }
+    if (key === "supportMessages" && !row.status) row.status = "new";
+    if (key === "marketplaceInquiries" && !row.status) row.status = "new";
+    if (key === "shopOrders" && !row.status) row.status = "new";
     list.push(row);
     saveData(key, list);
     log("addItem", key, row.id);
@@ -700,6 +724,7 @@
     var merged = Object.assign({}, list[idx], updates);
     merged.id = list[idx].id;
     if (key === "shopProducts") normalizeShopProductRow(merged);
+    if (key === "shopOrders") normalizeShopOrderRow(merged);
     list[idx] = merged;
     saveData(key, list);
     log("updateItem", key, id);

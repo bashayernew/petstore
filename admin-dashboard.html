@@ -21,6 +21,9 @@
         <li><button type="button" data-admin-view="bookings">Bookings</button></li>
         <li><button type="button" data-admin-view="pets">Pet Profiles</button></li>
         <li><button type="button" data-admin-view="messages">Messages</button></li>
+        <li><button type="button" data-admin-view="support-chat">Support chat</button></li>
+        <li><button type="button" data-admin-view="seller-inquiries">Seller inquiries</button></li>
+        <li><button type="button" data-admin-view="shop-orders">Shop orders</button></li>
         <li><button type="button" data-admin-view="emergency">Emergency</button></li>
       </ul>
       <div class="admin-sidebar__foot">
@@ -189,6 +192,77 @@
                     <th>Email</th>
                     <th>Topic</th>
                     <th>Message</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-view" id="view-support-chat" hidden data-title="Support chat" data-desc="Messages from the PetHub Support widget on public pages.">
+          <div class="admin-panel">
+            <div class="admin-panel__head">
+              <h2>Support chat</h2>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="table-support-chat">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>Name</th>
+                    <th>Page</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-view" id="view-seller-inquiries" hidden data-title="Seller inquiries" data-desc="Marketplace “Contact seller” submissions.">
+          <div class="admin-panel">
+            <div class="admin-panel__head">
+              <h2>Seller inquiries</h2>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="table-seller-inquiries">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>Listing</th>
+                    <th>Buyer</th>
+                    <th>Contact</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-view" id="view-shop-orders" hidden data-title="Shop orders" data-desc="Checkout orders from the Shop page (shopOrders in localStorage).">
+          <div class="admin-panel">
+            <div class="admin-panel__head">
+              <h2>Shop orders</h2>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="table-shop-orders">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>Customer</th>
+                    <th>Phone</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Status</th>
                     <th></th>
                   </tr>
                 </thead>

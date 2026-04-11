@@ -35,22 +35,26 @@
     currentListing: null,
     editingPetId: null,
     rescheduleBookingId: null,
+    inquiryPetType: "",
   };
 
   function persistState() {
     try {
-      /* Bookings + pet profiles live in PetHubApp (pethub_app_v1), not here — avoids split-brain. */
+      /* User + saved listings in legacy key; cart lives in PetHubApp shopCart; orders in shopOrders. */
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
           user: state.user,
-          cart: state.cart,
-          orders: state.orders,
           savedListings: Array.from(state.savedListings),
           savedListingDetails: state.savedListingDetails,
         })
       );
     } catch (e) {}
+    if (window.PetHubApp) {
+      try {
+        PetHubApp.saveData("shopCart", state.cart.slice());
+      } catch (e2) {}
+    }
     pushToPetHubApp();
   }
 
@@ -100,18 +104,67 @@
   }
 
   function hydrateState() {
+    var o = {};
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
-        var o = JSON.parse(raw);
+        o = JSON.parse(raw);
         if (o.user !== undefined) state.user = o.user;
-        if (Array.isArray(o.cart)) state.cart = o.cart;
-        if (Array.isArray(o.orders)) state.orders = o.orders;
         state.savedListings = new Set(o.savedListings || []);
         state.savedListingDetails =
           o.savedListingDetails && typeof o.savedListingDetails === "object" ? o.savedListingDetails : {};
       }
     } catch (e) {}
+
+    if (window.PetHubApp) {
+      PetHubApp.ensureSeedData();
+      var sc = PetHubApp.getData("shopCart");
+      if (sc.length) {
+        state.cart = sc;
+      } else if (Array.isArray(o.cart) && o.cart.length) {
+        state.cart = o.cart;
+        PetHubApp.saveData("shopCart", state.cart.slice());
+        console.log("[PetHubShop] shop cart updated (migrated legacy cart to shopCart)", state.cart.length);
+      } else {
+        state.cart = [];
+      }
+      var so = PetHubApp.getData("shopOrders");
+      if (so.length) {
+        state.orders = so;
+      } else if (Array.isArray(o.orders) && o.orders.length) {
+        var migrated = o.orders.map(function (old) {
+          var lines = old.lines || old.items || [];
+          var items = lines.map(function (x) {
+            return {
+              productId: x.productId || "",
+              name: x.name || "",
+              qty: x.qty || 1,
+              price: typeof x.price === "number" ? x.price : parseFloat(String(x.price || "0")) || 0,
+            };
+          });
+          var tot = old.total != null ? parseFloat(old.total) : 0;
+          if (isNaN(tot)) tot = 0;
+          return {
+            id: old.id || uid(),
+            customerName: old.customerName || "—",
+            phone: old.phone || "—",
+            address: old.address || "",
+            items: items,
+            total: tot,
+            createdAt: old.createdAt || old.placedAt || Date.now(),
+            status: old.status || "completed",
+          };
+        });
+        PetHubApp.saveData("shopOrders", migrated);
+        state.orders = migrated;
+        console.log("[PetHubShop] migrated legacy orders to shopOrders", migrated.length);
+      } else {
+        state.orders = [];
+      }
+    } else {
+      if (Array.isArray(o.cart)) state.cart = o.cart;
+      if (Array.isArray(o.orders)) state.orders = o.orders;
+    }
     /* Bookings + pets: only from PetHubApp / pethub_app_v1 */
     syncFromPetHubApp();
   }
@@ -231,12 +284,14 @@
           showToast("Removed from cart", "info");
         }
         persistState();
+        console.log("[PetHubShop] shop cart updated", state.cart.length, "lines");
         renderCartDrawer();
         updateCartBadge();
       });
       row.querySelector("[data-cart-inc]").addEventListener("click", function () {
         line.qty += 1;
         persistState();
+        console.log("[PetHubShop] shop cart updated", state.cart.length, "lines");
         renderCartDrawer();
         updateCartBadge();
         showToast("Quantity updated", "success");
@@ -244,6 +299,7 @@
       row.querySelector("[data-cart-remove]").addEventListener("click", function () {
         state.cart = state.cart.filter(function (x) { return x.id !== line.id; });
         persistState();
+        console.log("[PetHubShop] shop cart updated", state.cart.length, "lines");
         renderCartDrawer();
         updateCartBadge();
         showToast("Removed from cart", "info");
@@ -285,6 +341,7 @@
       });
     }
     persistState();
+    console.log("[PetHubShop] shop cart updated", state.cart.length, "lines");
   }
 
   function buildBookingCard(b, fullControls) {
@@ -417,23 +474,39 @@
       return;
     }
     state.orders.forEach(function (o) {
+      var lines = o.items || o.lines || [];
+      var ts = o.createdAt != null ? o.createdAt : o.placedAt;
       var card = document.createElement("article");
       card.className = "dash-card";
+      var st = String(o.status || "new").toLowerCase();
+      var stLabel =
+        st === "completed" ? "Completed" : st === "cancelled" ? "Cancelled" : st === "processing" ? "Processing" : "New";
+      var stClass =
+        st === "completed" ? "status--confirmed" : st === "cancelled" ? "status--cancelled" : "status--pending";
       card.innerHTML =
-        '<div class="dash-card__head"><h4></h4><span class="status-badge status--confirmed">Delivered</span></div>' +
+        '<div class="dash-card__head"><h4></h4><span class="status-badge ' +
+        stClass +
+        '"></span></div>' +
         "<p class=\"dash-card__muted\"></p>" +
         '<ul class="dash-card__list"></ul>' +
         '<p class="dash-card__total"><strong>Total:</strong> <span></span></p>';
-      card.querySelector("h4").textContent = "Order " + o.id.slice(-8).toUpperCase();
+      card.querySelector("h4").textContent = "Order " + String(o.id || "").slice(-8).toUpperCase();
+      card.querySelector(".status-badge").textContent = stLabel;
       card.querySelector(".dash-card__muted").textContent =
-        "Placed " + new Date(o.placedAt).toLocaleString();
+        (o.customerName ? o.customerName + " · " : "") +
+        "Placed " +
+        new Date(ts || Date.now()).toLocaleString();
       var ul = card.querySelector(".dash-card__list");
-      o.lines.forEach(function (l) {
+      lines.forEach(function (l) {
         var li = document.createElement("li");
-        li.textContent = l.name + " × " + l.qty + " — " + (l.price * l.qty).toFixed(2) + " KD";
+        var q = l.qty || 1;
+        var pr = typeof l.price === "number" ? l.price : parseFloat(l.price) || 0;
+        li.textContent = l.name + " × " + q + " — " + (pr * q).toFixed(2) + " KD";
         ul.appendChild(li);
       });
-      card.querySelector(".dash-card__total span").textContent = o.total.toFixed(2) + " KD";
+      var tot = o.total != null ? parseFloat(o.total) : 0;
+      if (isNaN(tot)) tot = 0;
+      card.querySelector(".dash-card__total span").textContent = tot.toFixed(2) + " KD";
       target.appendChild(card);
     });
   }
@@ -1028,12 +1101,27 @@
         }
         addBubble(t, "user");
         input.value = "";
+        if (window.PetHubApp) {
+          var guestName = "Guest";
+          if (state.user && (state.user.name || state.user.email)) {
+            guestName = String(state.user.name || state.user.email).trim() || "Guest";
+          }
+          var row = PetHubApp.addItem("supportMessages", {
+            source: "support-chat",
+            name: guestName,
+            message: t,
+            pageUrl: location.pathname + location.search,
+            pageTitle: document.title || "",
+            status: "new",
+          });
+          console.log("[PetHubSupport] support message saved", row && row.id);
+        }
         setTimeout(function () {
           addBubble(
-            "Thanks for reaching PetHub support. A provider will reply shortly — typical response under 5 minutes in Kuwait.",
+            "Thanks — our support team received your message. We’ll get back to you shortly.",
             "bot"
           );
-        }, 900 + Math.random() * 800);
+        }, 500);
       });
 
     input &&
@@ -1404,15 +1492,38 @@
         var f = e.target;
         if (!validateRequired(f, ["fullName", "phone", "address"])) return;
         var total = cartTotal();
-        var lines = state.cart.map(function (l) {
-          return { name: l.name, qty: l.qty, price: l.price };
+        var items = state.cart.map(function (l) {
+          return {
+            productId: l.productId,
+            name: l.name,
+            qty: l.qty,
+            price: l.price,
+          };
         });
-        state.orders.unshift({
-          id: uid(),
-          lines: lines,
-          total: total,
-          placedAt: Date.now(),
-        });
+        if (window.PetHubApp) {
+          var orderRow = PetHubApp.addItem("shopOrders", {
+            customerName: f.fullName.value.trim(),
+            phone: f.phone.value.trim(),
+            address: f.address.value.trim(),
+            items: items,
+            total: total,
+            status: "new",
+          });
+          state.orders = PetHubApp.getData("shopOrders");
+          console.log("[PetHubShop] shop order created", orderRow && orderRow.id, "total", total);
+        } else {
+          state.orders.unshift({
+            id: uid(),
+            items: items,
+            lines: items,
+            total: total,
+            createdAt: Date.now(),
+            placedAt: Date.now(),
+            customerName: f.fullName.value.trim(),
+            phone: f.phone.value.trim(),
+            status: "new",
+          });
+        }
         state.cart = [];
         persistState();
         updateCartBadge();
@@ -1553,6 +1664,7 @@
       if (contact) {
         var c = contact.closest(".pet-card");
         state.currentListing = c.getAttribute("data-listing-id");
+        state.inquiryPetType = (c.getAttribute("data-category") || "").trim();
         $("#inquiry-listing-label") &&
           ($("#inquiry-listing-label").textContent = c.getAttribute("data-listing-title") || "Listing");
         var f = $("#form-inquiry");
@@ -1592,6 +1704,20 @@
         e.preventDefault();
         var f = e.target;
         if (!validateRequired(f, ["name", "email", "message"])) return;
+        if (window.PetHubApp) {
+          var phoneEl = f.querySelector("[name=\"phone\"]");
+          var row = PetHubApp.addItem("marketplaceInquiries", {
+            listingId: state.currentListing || "",
+            listingName: ($("#inquiry-listing-label") && $("#inquiry-listing-label").textContent) || "",
+            petType: state.inquiryPetType || "",
+            buyerName: f.name.value.trim(),
+            buyerEmail: f.email.value.trim(),
+            buyerPhone: phoneEl ? String(phoneEl.value || "").trim() : "",
+            message: f.message.value.trim(),
+            status: "new",
+          });
+          console.log("[PetHubMarket] marketplace inquiry saved", row && row.id);
+        }
         closeModal($("#modal-inquiry"));
         showToast("Your inquiry has been sent successfully", "success");
         f.reset();

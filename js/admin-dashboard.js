@@ -38,8 +38,24 @@
 
   function badgeClass(status) {
     var t = String(status || "").toLowerCase();
-    if (t === "confirmed" || t === "resolved" || t === "active") return "badge--green";
-    if (t === "pending" || t === "urgent") return "badge--yellow";
+    if (
+      t === "confirmed" ||
+      t === "resolved" ||
+      t === "active" ||
+      t === "completed" ||
+      t === "read"
+    ) {
+      return "badge--green";
+    }
+    if (
+      t === "pending" ||
+      t === "urgent" ||
+      t === "new" ||
+      t === "contacted" ||
+      t === "processing"
+    ) {
+      return "badge--yellow";
+    }
     if (t === "cancelled" || t === "inactive") return "badge--red";
     return "badge--blue";
   }
@@ -85,6 +101,9 @@
     var m = App.getData("marketplaceListings").length;
     var b = App.getData("bookings").length;
     var e = App.getData("emergencyRequests").length;
+    var sup = App.getData("supportMessages").length;
+    var inq = App.getData("marketplaceInquiries").length;
+    var ord = App.getData("shopOrders").length;
     el.innerHTML =
       '<div class="admin-kpi"><p class="admin-kpi__label">Services</p><p class="admin-kpi__value">' +
       s +
@@ -94,6 +113,12 @@
       b +
       '</p></div><div class="admin-kpi"><p class="admin-kpi__label">Emergency</p><p class="admin-kpi__value">' +
       e +
+      '</p></div><div class="admin-kpi"><p class="admin-kpi__label">Support chat</p><p class="admin-kpi__value">' +
+      sup +
+      '</p></div><div class="admin-kpi"><p class="admin-kpi__label">Seller inquiries</p><p class="admin-kpi__value">' +
+      inq +
+      '</p></div><div class="admin-kpi"><p class="admin-kpi__label">Shop orders</p><p class="admin-kpi__value">' +
+      ord +
       "</p></div>";
   }
 
@@ -313,6 +338,180 @@
       .join("");
   }
 
+  function renderSupportChat() {
+    var tb = $("#table-support-chat tbody");
+    if (!tb) return;
+    var rows = App.getData("supportMessages").slice().sort(function (a, b) {
+      return (b.createdAt || 0) - (a.createdAt || 0);
+    });
+    var st = ["new", "read", "resolved"];
+    tb.innerHTML = rows
+      .map(function (r) {
+        var d = r.createdAt ? new Date(r.createdAt).toLocaleString() : "—";
+        var cur = String(r.status || "new").toLowerCase();
+        var sel = st
+          .map(function (x) {
+            return (
+              '<option value="' +
+              x +
+              '"' +
+              (cur === x ? " selected" : "") +
+              ">" +
+              x +
+              "</option>"
+            );
+          })
+          .join("");
+        return (
+          "<tr>" +
+          "<td>" +
+          escapeHtml(d) +
+          "</td>" +
+          "<td>" +
+          escapeHtml(r.name || "") +
+          "</td>" +
+          '<td style="max-width:140px;font-size:0.8125rem">' +
+          escapeHtml(r.pageTitle || r.pageUrl || "—") +
+          "</td>" +
+          '<td style="max-width:220px">' +
+          escapeHtml(r.message || "") +
+          "</td>" +
+          "<td>" +
+          '<select class="input" style="min-width:100px;padding:6px 8px;font-size:0.8125rem" data-row-id="' +
+          escapeHtml(r.id) +
+          '" data-admin-support-status="1">' +
+          sel +
+          "</select></td>" +
+          '<td class="admin-actions"><button type="button" class="btn-admin btn-admin--danger btn-admin--sm" data-del-support="' +
+          escapeHtml(r.id) +
+          '">Delete</button></td></tr>'
+        );
+      })
+      .join("");
+  }
+
+  function renderSellerInquiries() {
+    var tb = $("#table-seller-inquiries tbody");
+    if (!tb) return;
+    var rows = App.getData("marketplaceInquiries").slice().sort(function (a, b) {
+      return (b.createdAt || 0) - (a.createdAt || 0);
+    });
+    var st = ["new", "contacted", "resolved"];
+    tb.innerHTML = rows
+      .map(function (r) {
+        var d = r.createdAt ? new Date(r.createdAt).toLocaleString() : "—";
+        var cur = String(r.status || "new").toLowerCase();
+        var sel = st
+          .map(function (x) {
+            return (
+              '<option value="' +
+              x +
+              '"' +
+              (cur === x ? " selected" : "") +
+              ">" +
+              x +
+              "</option>"
+            );
+          })
+          .join("");
+        var contact =
+          [r.buyerEmail || "", r.buyerPhone || ""].filter(Boolean).join(" · ") || "—";
+        return (
+          "<tr>" +
+          "<td>" +
+          escapeHtml(d) +
+          "</td>" +
+          "<td>" +
+          escapeHtml(r.listingName || "") +
+          " <span style=\"color:var(--admin-muted);font-size:0.75rem\">(" +
+          escapeHtml(r.petType || "—") +
+          ")</span></td>" +
+          "<td>" +
+          escapeHtml(r.buyerName || "") +
+          "</td>" +
+          '<td style="max-width:160px">' +
+          escapeHtml(contact) +
+          "</td>" +
+          '<td style="max-width:200px">' +
+          escapeHtml(r.message || "") +
+          "</td>" +
+          "<td>" +
+          '<select class="input" style="min-width:100px;padding:6px 8px;font-size:0.8125rem" data-row-id="' +
+          escapeHtml(r.id) +
+          '" data-admin-inquiry-status="1">' +
+          sel +
+          "</select></td>" +
+          '<td class="admin-actions"><button type="button" class="btn-admin btn-admin--danger btn-admin--sm" data-del-inquiry="' +
+          escapeHtml(r.id) +
+          '">Delete</button></td></tr>'
+        );
+      })
+      .join("");
+  }
+
+  function renderShopOrdersAdmin() {
+    var tb = $("#table-shop-orders tbody");
+    if (!tb) return;
+    var rows = App.getData("shopOrders").slice().sort(function (a, b) {
+      return (b.createdAt || 0) - (a.createdAt || 0);
+    });
+    var st = ["new", "processing", "completed", "cancelled"];
+    tb.innerHTML = rows
+      .map(function (r) {
+        var d = r.createdAt ? new Date(r.createdAt).toLocaleString() : "—";
+        var cur = String(r.status || "new").toLowerCase();
+        var sel = st
+          .map(function (x) {
+            return (
+              '<option value="' +
+              x +
+              '"' +
+              (cur === x ? " selected" : "") +
+              ">" +
+              x +
+              "</option>"
+            );
+          })
+          .join("");
+        var items = r.items || r.lines || [];
+        var summary = items
+          .map(function (x) {
+            return (x.name || "") + " ×" + (x.qty || 1);
+          })
+          .join("; ");
+        var tot = r.total != null ? parseFloat(r.total) : 0;
+        if (isNaN(tot)) tot = 0;
+        return (
+          "<tr>" +
+          "<td>" +
+          escapeHtml(d) +
+          "</td>" +
+          "<td>" +
+          escapeHtml(r.customerName || "") +
+          "</td>" +
+          "<td>" +
+          escapeHtml(r.phone || "") +
+          "</td>" +
+          '<td style="max-width:240px;font-size:0.8125rem">' +
+          escapeHtml(summary || "—") +
+          "</td>" +
+          "<td>" +
+          escapeHtml(tot.toFixed(2) + " KD") +
+          "</td>" +
+          "<td>" +
+          '<select class="input" style="min-width:110px;padding:6px 8px;font-size:0.8125rem" data-row-id="' +
+          escapeHtml(r.id) +
+          '" data-admin-order-status="1">' +
+          sel +
+          "</select></td>" +
+          '<td class="admin-actions"><button type="button" class="btn-admin btn-admin--danger btn-admin--sm" data-del-shop-order="' +
+          escapeHtml(r.id) +
+          '">Delete</button></td></tr>'
+        );
+      })
+      .join("");
+  }
+
   var shopAdminCatFilter = "all";
   var SHOP_CATEGORIES = ["food", "toys", "grooming", "beds", "carriers", "accessories"];
 
@@ -477,6 +676,12 @@
 
   function refreshAll() {
     App.ensureSeedData();
+    console.log("[PetHubAdmin] data loaded", {
+      supportMessages: App.getData("supportMessages").length,
+      marketplaceInquiries: App.getData("marketplaceInquiries").length,
+      shopOrders: App.getData("shopOrders").length,
+      shopCartLines: App.getData("shopCart").length,
+    });
     renderKpis();
     renderServices();
     renderMarketplace();
@@ -485,6 +690,9 @@
     renderBookings();
     renderPets();
     renderMessages();
+    renderSupportChat();
+    renderSellerInquiries();
+    renderShopOrdersAdmin();
     renderEmergency();
     if (App.syncLegacyMirror) App.syncLegacyMirror();
   }
@@ -505,6 +713,9 @@
       renderShopKpis();
       renderShopTable();
     }
+    if (id === "support-chat") renderSupportChat();
+    if (id === "seller-inquiries") renderSellerInquiries();
+    if (id === "shop-orders") renderShopOrdersAdmin();
   }
 
   $all("[data-admin-view]").forEach(function (btn) {
@@ -684,6 +895,22 @@
       refreshAll();
     }
 
+    var dsu = t.getAttribute("data-del-support");
+    if (dsu && confirm("Delete this support message?")) {
+      App.deleteItem("supportMessages", dsu);
+      refreshAll();
+    }
+    var din = t.getAttribute("data-del-inquiry");
+    if (din && confirm("Delete this inquiry?")) {
+      App.deleteItem("marketplaceInquiries", din);
+      refreshAll();
+    }
+    var dso = t.getAttribute("data-del-shop-order");
+    if (dso && confirm("Delete this order?")) {
+      App.deleteItem("shopOrders", dso);
+      refreshAll();
+    }
+
     if (t.getAttribute("data-action") === "add-shop-product") {
       openModal("Add product", productFields(null), function (fd) {
         App.addItem("shopProducts", productFromForm(fd));
@@ -736,13 +963,34 @@
   var adminMainEl = $("#admin-main");
   if (adminMainEl) {
     adminMainEl.addEventListener("change", function (e) {
-      var sid = e.target.getAttribute && e.target.getAttribute("data-shop-stock-id");
-      if (!sid) return;
-      var n = parseInt(e.target.value, 10);
-      if (isNaN(n) || n < 0) n = 0;
-      App.updateItem("shopProducts", sid, { stock: n });
-      console.log("[PetHubShop] admin stock field saved", sid, n);
-      renderShopKpis();
+      var t = e.target;
+      var sid = t.getAttribute && t.getAttribute("data-shop-stock-id");
+      if (sid) {
+        var n = parseInt(t.value, 10);
+        if (isNaN(n) || n < 0) n = 0;
+        App.updateItem("shopProducts", sid, { stock: n });
+        console.log("[PetHubShop] admin stock field saved", sid, n);
+        renderShopKpis();
+        return;
+      }
+      var rowId = t.getAttribute && t.getAttribute("data-row-id");
+      if (rowId && t.hasAttribute("data-admin-support-status")) {
+        App.updateItem("supportMessages", rowId, { status: t.value });
+        console.log("[PetHubAdmin] support status", rowId, t.value);
+        refreshAll();
+        return;
+      }
+      if (rowId && t.hasAttribute("data-admin-inquiry-status")) {
+        App.updateItem("marketplaceInquiries", rowId, { status: t.value });
+        console.log("[PetHubAdmin] inquiry status", rowId, t.value);
+        refreshAll();
+        return;
+      }
+      if (rowId && t.hasAttribute("data-admin-order-status")) {
+        App.updateItem("shopOrders", rowId, { status: t.value });
+        console.log("[PetHubAdmin] order status", rowId, t.value);
+        refreshAll();
+      }
     });
   }
 
