@@ -8,9 +8,9 @@
   var PASS = "1234";
   var LS_KEY = "isAdminLoggedIn";
 
-  /** Pretty routes on Vercel (/dashboard); plain .html when opening files locally without a server. */
+  /** Dashboard URL (relative path works on file://, local static servers, and Vercel). */
   function adminDashboardUrl() {
-    return location.protocol === "file:" ? "admin-dashboard.html" : "/dashboard";
+    return "admin-dashboard.html";
   }
 
   var form = document.getElementById("form-admin-login");

@@ -1,0 +1,476 @@
+/* PetHub — Live pet tracking (demo) — user page + shared tokens */
+
+.ptr-page {
+  padding-bottom: 4rem;
+}
+
+.ptr-demo-banner {
+  position: sticky;
+  top: var(--header-h);
+  z-index: 30;
+  background: linear-gradient(90deg, rgba(6, 182, 212, 0.12), rgba(59, 130, 246, 0.12));
+  border-bottom: 1px solid var(--border);
+  padding: 0.65rem 0;
+  font-size: 0.875rem;
+  color: var(--text);
+  text-align: center;
+}
+.ptr-demo-banner strong {
+  color: var(--teal-dim);
+}
+
+.ptr-hero {
+  padding: 2.5rem 0 1.5rem;
+}
+.ptr-hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  margin: 0 0 0.5rem;
+}
+.ptr-hero__lead {
+  color: var(--muted);
+  max-width: 52ch;
+  margin: 0;
+}
+
+.ptr-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.ptr-card-pick {
+  display: block;
+  text-align: left;
+  padding: 1.25rem 1.35rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  font: inherit;
+  color: inherit;
+  width: 100%;
+}
+.ptr-card-pick:hover,
+.ptr-card-pick:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg), var(--glow-teal);
+  outline: none;
+}
+.ptr-card-pick.is-active {
+  border-color: rgba(6, 182, 212, 0.45);
+  box-shadow: var(--shadow-lg), 0 0 0 3px rgba(6, 182, 212, 0.15);
+}
+
+.ptr-card-pick__pet {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.ptr-card-pick__img {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: var(--shadow);
+}
+.ptr-card-pick__name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin: 0;
+}
+.ptr-card-pick__meta {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin: 0.15rem 0 0;
+}
+.ptr-card-pick__svc {
+  font-size: 0.875rem;
+  color: var(--text);
+  margin: 0.5rem 0 0;
+}
+
+.ptr-detail {
+  margin-top: 2.5rem;
+  animation: ptr-fade 0.45s var(--ease);
+}
+@keyframes ptr-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.ptr-detail__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 960px) {
+  .ptr-detail__grid {
+    grid-template-columns: 1.15fr 1fr;
+    align-items: start;
+  }
+}
+
+/* Fake map */
+.ptr-map {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: linear-gradient(165deg, #e0f2fe 0%, #f0f9ff 40%, #ecfdf5 100%);
+  border: 1px solid var(--border);
+  min-height: 280px;
+  box-shadow: var(--shadow-card), inset 0 0 80px rgba(6, 182, 212, 0.08);
+}
+.ptr-map__grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.6;
+}
+.ptr-map__svg {
+  position: absolute;
+  inset: 8% 6%;
+  width: 88%;
+  height: 84%;
+  overflow: visible;
+}
+.ptr-map__route {
+  fill: none;
+  stroke: url(#ptr-route-grad);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 8 10;
+  animation: ptr-dash 20s linear infinite;
+}
+@keyframes ptr-dash {
+  to {
+    stroke-dashoffset: -360;
+  }
+}
+.ptr-map__pin {
+  filter: drop-shadow(0 4px 8px rgba(15, 23, 42, 0.15));
+}
+.ptr-map__vehicle {
+  z-index: 3;
+  pointer-events: none;
+  animation: ptr-veh-glow 2.2s ease-in-out infinite;
+}
+@keyframes ptr-veh-glow {
+  0%,
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.75));
+  }
+  50% {
+    opacity: 0.95;
+    filter: drop-shadow(0 0 18px rgba(6, 182, 212, 1));
+  }
+}
+.ptr-map__label {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.ptr-glow-card {
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 1.35rem 1.5rem;
+  box-shadow: var(--shadow-card);
+}
+
+.ptr-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  background: var(--success-soft);
+  color: #047857;
+}
+.ptr-status-badge--transit {
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--blue-deep);
+}
+
+.ptr-reassure {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 1rem;
+  line-height: 1.4;
+}
+
+.ptr-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.ptr-meta-item {
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  font-size: 0.8125rem;
+}
+.ptr-meta-item span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.2rem;
+}
+
+.ptr-progress {
+  margin: 1.25rem 0;
+}
+.ptr-progress__track {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bg-3);
+  overflow: hidden;
+}
+.ptr-progress__fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--gradient);
+  transition: width 0.6s var(--ease);
+}
+.ptr-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+}
+.ptr-step {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  background: var(--bg-3);
+  color: var(--muted);
+}
+.ptr-step.is-done {
+  background: rgba(16, 185, 129, 0.15);
+  color: #047857;
+}
+.ptr-step.is-current {
+  background: rgba(6, 182, 212, 0.15);
+  color: var(--teal-dim);
+  font-weight: 600;
+}
+
+.ptr-timeline {
+  margin-top: 1rem;
+  border-left: 2px solid var(--border);
+  padding-left: 1rem;
+}
+.ptr-tl-item {
+  position: relative;
+  padding-bottom: 1rem;
+  font-size: 0.875rem;
+}
+.ptr-tl-item::before {
+  content: "";
+  position: absolute;
+  left: -1.35rem;
+  top: 0.35rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+}
+.ptr-tl-item time {
+  font-size: 0.75rem;
+  color: var(--muted);
+  display: block;
+}
+.ptr-tl-item strong {
+  display: block;
+  margin-top: 0.15rem;
+}
+
+.ptr-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.ptr-live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+  animation: ptr-blink 1.5s infinite;
+  margin-right: 0.35rem;
+  vertical-align: middle;
+}
+@keyframes ptr-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ——— Admin pet tracking (loaded with admin.css context) ——— */
+.apt-emergency-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius, 10px);
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.12), rgba(239, 68, 68, 0.04));
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  color: #b91c1c;
+}
+.apt-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.apt-kpi {
+  background: var(--admin-panel-bg, #fff);
+  border: 1px solid var(--admin-border, rgba(0, 0, 0, 0.08));
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+}
+.apt-kpi__label {
+  font-size: 0.75rem;
+  color: var(--admin-muted, #64748b);
+  margin: 0;
+}
+.apt-kpi__value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0.15rem 0 0;
+}
+.apt-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.apt-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.apt-filter-btn {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.8125rem;
+  border-radius: 999px;
+  border: 1px solid var(--admin-border, rgba(0, 0, 0, 0.1));
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+  font-family: inherit;
+}
+.apt-filter-btn.is-active {
+  background: rgba(6, 182, 212, 0.15);
+  border-color: rgba(6, 182, 212, 0.35);
+  color: #0e7490;
+  font-weight: 600;
+}
+.apt-search {
+  min-width: 200px;
+  flex: 1;
+  max-width: 320px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--admin-border, rgba(0, 0, 0, 0.12));
+  font: inherit;
+}
+.apt-table-wrap {
+  overflow-x: auto;
+}
+.apt-row-delayed {
+  background: rgba(245, 158, 11, 0.06);
+}
+.apt-row-emergency {
+  background: rgba(239, 68, 68, 0.06);
+}
+.apt-badge--emergency {
+  background: rgba(239, 68, 68, 0.15);
+  color: #b91c1c;
+}
+.apt-badge--delayed {
+  background: rgba(245, 158, 11, 0.18);
+  color: #b45309;
+}
+
+.apt-modal-map {
+  height: 160px;
+  border-radius: 12px;
+  background: linear-gradient(165deg, #e0f2fe, #ecfdf5);
+  position: relative;
+  overflow: hidden;
+  margin: 0.75rem 0;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+.apt-modal-map__dot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--teal, #06b6d4);
+  box-shadow: 0 0 16px rgba(6, 182, 212, 0.7);
+  transform: translate(-50%, -50%);
+  animation: ptr-veh-glow 2s infinite;
+}
+
+.apt-detail-grid {
+  display: grid;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+}
+.apt-detail-grid dt {
+  color: var(--admin-muted, #64748b);
+  font-size: 0.75rem;
+  margin: 0;
+}
+.apt-detail-grid dd {
+  margin: 0.15rem 0 0.5rem;
+}
+.apt-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}

@@ -11,9 +11,9 @@
     return;
   }
 
-  /** Pretty route /admin on Vercel; admin-login.html for file:// or same-folder relative. */
+  /** Login page (relative path works on file://, local static servers, and Vercel). */
   function adminLoginUrl() {
-    return location.protocol === "file:" ? "admin-login.html" : "/admin";
+    return "admin-login.html";
   }
 
   if (localStorage.getItem(LS_LOGIN) !== "true") {
@@ -694,6 +694,7 @@
     renderSellerInquiries();
     renderShopOrdersAdmin();
     renderEmergency();
+    if (typeof window.renderAdminPetTracking === "function") window.renderAdminPetTracking();
     if (App.syncLegacyMirror) App.syncLegacyMirror();
   }
 
@@ -716,6 +717,7 @@
     if (id === "support-chat") renderSupportChat();
     if (id === "seller-inquiries") renderSellerInquiries();
     if (id === "shop-orders") renderShopOrdersAdmin();
+    if (id === "pet-tracking" && typeof window.renderAdminPetTracking === "function") window.renderAdminPetTracking();
   }
 
   $all("[data-admin-view]").forEach(function (btn) {

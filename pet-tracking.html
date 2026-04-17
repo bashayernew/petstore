@@ -4,13 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="PetHub — Kuwait’s integrated pet services platform." />
-  <title>PetHub | Bookings &amp; Account</title>
+  <title>PetHub | Live Pet Tracking (Demo)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/pet-tracking.css" />
 </head>
-<body data-page="bookings">
+<body data-page="tracking">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="header" id="top">
     <div class="header__inner container">
@@ -102,95 +103,32 @@
     </div>
   </header>
   <div class="toast-host" id="toast-host" aria-live="polite"></div>
-  <main id="main">
-    <section class="hero page-hero">
+  <div class="ptr-demo-banner" role="status">
+    <strong>Demo mode</strong> — Simulated transport tracking for presentation. Not real GPS or live data.
+  </div>
+  <main id="main" class="ptr-page">
+    <section class="ptr-hero">
       <div class="container">
-        <p class="eyebrow">Your hub</p>
-        <h1 class="page-hero__title">Bookings &amp; <span class="text-gradient">account</span></h1>
-        <p class="page-hero__lead">Upcoming visits, history, orders, saved pets, and pet profiles stay in sync across the site.</p>
-        <a href="services.html" class="btn btn--primary btn--sm">Book another service</a>
-        <p style="margin: 1rem 0 0; max-width: 48ch; font-size: 0.9375rem; color: var(--muted)">
-          Transport or mobile grooming booked? Try the <a href="pet-tracking.html">live pet tracking demo</a> to preview the experience.
+        <p class="eyebrow"><span class="eyebrow__dot"></span> Transport &amp; care</p>
+        <h1 class="ptr-hero__title">Live Pet <span class="text-gradient">Tracking</span></h1>
+        <p class="ptr-hero__lead">
+          Follow your pet’s journey when they’re on the way to grooming, the vet, daycare, or home — same experience you’ll get after booking a transport service on PetHub.
         </p>
       </div>
     </section>
-    <section class="section section--dashboard">
-      <div class="container">
-        <h2 class="section__title visually-hidden">Booking schedule</h2>
-        <div class="bookings-split reveal">
-          <div>
-            <h3 class="subsection-title">Upcoming</h3>
-            <div id="bookings-upcoming"></div>
-          </div>
-          <div>
-            <h3 class="subsection-title">Past &amp; cancelled</h3>
-            <div id="bookings-past"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="section section--pet-profiles" id="pet-profiles">
+    <section class="section" aria-labelledby="ptr-showcase-title">
       <div class="container">
         <header class="section__head reveal">
-          <p class="eyebrow">Pet health</p>
-          <h2 id="pet-profiles-title" class="section__title">Pet profiles &amp; <span class="text-gradient">health records</span></h2>
-          <p class="section__lead">Add each pet once — track vaccination dates and notes. Reminders surface automatically when a due date is near.</p>
-          <div class="section__head-actions">
-            <a href="#pet-profile-form" class="btn btn--primary btn--sm">Add a pet profile</a>
-          </div>
+          <h2 id="ptr-showcase-title" class="section__title">Track <span class="text-gradient">demo pets</span></h2>
+          <p class="section__lead">
+            Pick a sample trip below to see the full tracking experience — Luna, Milo, and Coco are fictional showcase routes in Kuwait.
+          </p>
         </header>
-        <div id="pet-profile-form" class="pet-form-panel reveal glass-panel" tabindex="-1">
-          <form id="form-pet-profile" class="booking-form" novalidate>
-            <div class="form-row form-row--2">
-              <label class="field">
-                <span class="field__label">Pet name</span>
-                <input type="text" name="petName" id="pet-form-name" class="input" required />
-              </label>
-              <label class="field">
-                <span class="field__label">Pet type</span>
-                <input type="text" name="petType" id="pet-form-type" class="input" placeholder="Dog, cat…" required />
-              </label>
-            </div>
-            <div class="form-row form-row--2">
-              <label class="field">
-                <span class="field__label">Breed</span>
-                <input type="text" name="breed" id="pet-form-breed" class="input" required />
-              </label>
-              <label class="field">
-                <span class="field__label">Age</span>
-                <input type="text" name="age" id="pet-form-age" class="input" placeholder="e.g. 3 years" required />
-              </label>
-            </div>
-            <label class="field">
-              <span class="field__label">Last / next vaccination date</span>
-              <input type="date" name="vaccDate" id="pet-form-vacc" class="input" />
-            </label>
-            <label class="field">
-              <span class="field__label">Medical notes</span>
-              <textarea name="notes" id="pet-form-notes" class="input input--textarea" rows="2"></textarea>
-            </label>
-            <button type="submit" class="btn btn--primary" id="pet-form-submit">Save pet profile</button>
-          </form>
-        </div>
-        <div class="pet-profiles-grid" id="pet-profile-cards"></div>
-      </div>
-    </section>
-    <section class="section section--dashboard">
-      <div class="container">
-        <header class="section__head reveal">
-          <p class="eyebrow">More</p>
-          <h2 class="section__title">Orders &amp; saved</h2>
-        </header>
-        <div class="dash-tabs reveal" role="tablist">
-          <button type="button" class="dash-tab is-active" role="tab" aria-selected="true" data-dash-tab="orders">My Orders</button>
-          <button type="button" class="dash-tab" role="tab" aria-selected="false" data-dash-tab="saved">Saved Pets</button>
-          <button type="button" class="dash-tab" role="tab" aria-selected="false" data-dash-tab="pets">Pet Profiles</button>
-        </div>
-        <div class="dash-panels reveal">
-          <div class="dash-panel" data-dash-panel="orders" id="dash-orders" role="tabpanel"></div>
-          <div class="dash-panel" data-dash-panel="saved" id="dash-saved" role="tabpanel" hidden></div>
-          <div class="dash-panel" data-dash-panel="pets" id="dash-pets" role="tabpanel" hidden></div>
-        </div>
+        <div id="ptr-showcase" class="ptr-showcase reveal"></div>
+        <p id="ptr-detail-empty" class="section__lead" style="margin-top: 2rem; text-align: center; color: var(--muted)">
+          Select a pet above to open the live demo view.
+        </p>
+        <div id="ptr-detail" class="ptr-detail" hidden></div>
       </div>
     </section>
   </main>
@@ -237,8 +175,6 @@
       <p class="footer__legal"><a href="#">Privacy</a> · <a href="#">Terms</a></p>
     </div>
   </footer>
-    </div>
-  </footer>
 
   <button type="button" class="emergency-fab" data-open-emergency aria-label="Emergency veterinary help">
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
@@ -276,81 +212,6 @@
           <button type="button" class="btn btn--primary btn--sm" id="chat-send">Send</button>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="modal" id="modal-booking" role="dialog" aria-modal="true" aria-labelledby="modal-booking-title" hidden aria-hidden="true">
-    <div class="modal__backdrop" data-modal-close tabindex="-1"></div>
-    <div class="modal__panel glass-panel">
-      <button type="button" class="modal__close" data-modal-close aria-label="Close">×</button>
-      <h2 id="modal-booking-title" class="modal__title">Book a service</h2>
-      <form id="form-modal-booking" class="booking-form" novalidate>
-        <label class="field">
-          <span class="field__label">Service</span>
-          <select name="service" id="modal-booking-service" class="input" required>
-            <option value="">Select service</option>
-            <option>Veterinary Care</option>
-            <option>Pet Grooming</option>
-            <option>Dog Walking</option>
-            <option>Pet Transportation</option>
-            <option>Emergency Vet</option>
-            <option>Vaccination Reminder</option>
-          </select>
-        </label>
-        <label class="field">
-          <span class="field__label">Date</span>
-          <input type="date" name="date" class="input" required />
-        </label>
-        <div class="field">
-          <span class="field__label">Time slot</span>
-          <div class="time-slots" role="group">
-            <button type="button" class="time-slot" data-time="9:00 AM">9:00 AM</button>
-            <button type="button" class="time-slot" data-time="11:30 AM">11:30 AM</button>
-            <button type="button" class="time-slot" data-time="2:00 PM">2:00 PM</button>
-            <button type="button" class="time-slot" data-time="4:30 PM">4:30 PM</button>
-            <button type="button" class="time-slot" data-time="6:00 PM">6:00 PM</button>
-          </div>
-        </div>
-        <div class="form-row form-row--2">
-          <label class="field">
-            <span class="field__label">Pet type</span>
-            <select name="petType" class="input" required>
-              <option value="">Select</option>
-              <option>Dog</option>
-              <option>Cat</option>
-              <option>Bird</option>
-              <option>Other</option>
-            </select>
-          </label>
-          <label class="field">
-            <span class="field__label">Pet name</span>
-            <input type="text" name="petName" class="input" required />
-          </label>
-        </div>
-        <div class="form-row form-row--2">
-          <label class="field">
-            <span class="field__label">Your name</span>
-            <input type="text" name="ownerName" class="input" required />
-          </label>
-          <label class="field">
-            <span class="field__label">Phone</span>
-            <input type="tel" name="phone" class="input" required />
-          </label>
-        </div>
-        <label class="field">
-          <span class="field__label">Notes</span>
-          <textarea name="notes" class="input input--textarea" rows="2"></textarea>
-        </label>
-        <button type="submit" class="btn btn--primary btn--block">Submit booking</button>
-      </form>
-    </div>
-  </div>
-  <div class="modal" id="modal-booking-success" role="dialog" aria-modal="true" aria-labelledby="modal-success-title" hidden aria-hidden="true">
-    <div class="modal__backdrop" data-modal-close tabindex="-1"></div>
-    <div class="modal__panel glass-panel modal__panel--sm">
-      <h2 id="modal-success-title" class="modal__title">You’re all set</h2>
-      <p class="modal__lead">Booking confirmed — details below.</p>
-      <ul class="booking-summary" id="booking-success-summary"></ul>
-      <button type="button" class="btn btn--primary btn--block" data-modal-close>Done</button>
     </div>
   </div>
   <div class="modal" id="modal-checkout" role="dialog" aria-modal="true" aria-labelledby="checkout-title" hidden aria-hidden="true">
@@ -404,29 +265,10 @@
       </form>
     </div>
   </div>
-  <div class="modal" id="modal-reschedule" role="dialog" aria-modal="true" aria-labelledby="reschedule-title" hidden aria-hidden="true">
-    <div class="modal__backdrop" data-modal-close tabindex="-1"></div>
-    <div class="modal__panel glass-panel modal__panel--sm">
-      <button type="button" class="modal__close" data-modal-close aria-label="Close">×</button>
-      <h2 id="reschedule-title" class="modal__title">Reschedule visit</h2>
-      <p class="modal__muted" id="reschedule-service-label"></p>
-      <form id="form-reschedule" class="booking-form" novalidate>
-        <label class="field"><span class="field__label">New date</span><input type="date" name="rescheduleDate" id="reschedule-date-input" class="input" required /></label>
-        <div class="field"><span class="field__label">New time</span>
-          <div class="time-slots" role="group">
-            <button type="button" class="time-slot" data-time="9:00 AM">9:00 AM</button>
-            <button type="button" class="time-slot" data-time="11:30 AM">11:30 AM</button>
-            <button type="button" class="time-slot" data-time="2:00 PM">2:00 PM</button>
-            <button type="button" class="time-slot" data-time="4:30 PM">4:30 PM</button>
-            <button type="button" class="time-slot" data-time="6:00 PM">6:00 PM</button>
-          </div>
-        </div>
-        <button type="submit" class="btn btn--primary btn--block">Save new schedule</button>
-      </form>
-    </div>
-  </div>
 
   <script src="js/storage.js"></script>
   <script src="js/pethub.js"></script>
+  <script src="js/pet-tracking-data.js"></script>
+  <script src="js/pet-tracking-page.js"></script>
 </body>
 </html>

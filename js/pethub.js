@@ -412,6 +412,16 @@
         });
         actions.appendChild(rs);
       }
+      var trackMatch = /grooming|transport|taxi|walking|daycare|boarding|vet|veterinary|emergency/i.test(
+        b.service || ""
+      );
+      if (trackMatch && b.status !== "Cancelled") {
+        var ta = document.createElement("a");
+        ta.href = "pet-tracking.html";
+        ta.className = "btn btn--primary btn--sm";
+        ta.textContent = "Track pet (demo)";
+        actions.appendChild(ta);
+      }
     }
     return card;
   }

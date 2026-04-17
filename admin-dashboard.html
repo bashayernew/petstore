@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/admin.css" />
+  <link rel="stylesheet" href="css/pet-tracking.css" />
 </head>
 <body class="admin-body">
   <div class="admin-layout">
@@ -24,6 +25,7 @@
         <li><button type="button" data-admin-view="support-chat">Support chat</button></li>
         <li><button type="button" data-admin-view="seller-inquiries">Seller inquiries</button></li>
         <li><button type="button" data-admin-view="shop-orders">Shop orders</button></li>
+        <li><button type="button" data-admin-view="pet-tracking">Pet tracking</button></li>
         <li><button type="button" data-admin-view="emergency">Emergency</button></li>
       </ul>
       <div class="admin-sidebar__foot">
@@ -272,6 +274,49 @@
           </div>
         </section>
 
+        <section class="admin-view" id="view-pet-tracking" hidden data-title="Pet tracking" data-desc="Live animal transport monitor (demo data — not real GPS).">
+          <p id="apt-ptrack-live-clock" style="font-size: 0.8125rem; color: var(--admin-muted); margin: 0 0 0.75rem"></p>
+          <div id="apt-ptrack-emergency" class="apt-emergency-bar" hidden></div>
+          <div class="apt-kpi-grid" id="apt-ptrack-kpis"></div>
+          <div class="admin-panel">
+            <div class="admin-panel__head">
+              <h2>Live animal transport monitor</h2>
+            </div>
+            <div class="apt-toolbar">
+              <div class="apt-filters" id="apt-ptrack-filters" role="group" aria-label="Filter trips">
+                <button type="button" class="apt-filter-btn is-active" data-ptrack-filter="all">All</button>
+                <button type="button" class="apt-filter-btn" data-ptrack-filter="assigned">Assigned</button>
+                <button type="button" class="apt-filter-btn" data-ptrack-filter="picked_up">Picked up</button>
+                <button type="button" class="apt-filter-btn" data-ptrack-filter="in_transit">In transit</button>
+                <button type="button" class="apt-filter-btn" data-ptrack-filter="delivered">Delivered</button>
+                <button type="button" class="apt-filter-btn" data-ptrack-filter="delayed">Delayed</button>
+                <button type="button" class="apt-filter-btn" data-ptrack-filter="emergency">Emergency</button>
+              </div>
+              <input type="search" class="apt-search" id="apt-ptrack-search" placeholder="Search pet, owner, ID, service…" autocomplete="off" />
+            </div>
+            <div class="apt-table-wrap admin-table-wrap">
+              <table class="admin-table" id="table-pet-tracking">
+                <thead>
+                  <tr>
+                    <th>Tracking ID</th>
+                    <th>Pet</th>
+                    <th>Owner</th>
+                    <th>Service</th>
+                    <th>Staff</th>
+                    <th>Current</th>
+                    <th>Destination</th>
+                    <th>Status</th>
+                    <th>ETA</th>
+                    <th>Priority</th>
+                    <th>Updated</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
         <section class="admin-view" id="view-emergency" hidden data-title="Emergency requests" data-desc="Urgent veterinary requests from the Emergency modal.">
           <div class="admin-panel">
             <div class="admin-panel__head">
@@ -309,7 +354,19 @@
     </div>
   </div>
 
+  <div class="admin-modal-overlay" id="admin-ptrack-modal" hidden>
+    <div class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="admin-ptrack-modal-title" style="max-width: 760px">
+      <h3 id="admin-ptrack-modal-title">Trip detail (demo)</h3>
+      <div id="admin-ptrack-modal-body"></div>
+      <div style="margin-top: 18px; display: flex; justify-content: flex-end">
+        <button type="button" class="btn-admin btn-admin--primary btn-admin--sm" data-ptrack-close>Close</button>
+      </div>
+    </div>
+  </div>
+
   <script src="js/storage.js"></script>
+  <script src="js/pet-tracking-data.js"></script>
+  <script src="js/admin-pet-tracking.js"></script>
   <script src="js/admin-dashboard.js"></script>
 </body>
 </html>
